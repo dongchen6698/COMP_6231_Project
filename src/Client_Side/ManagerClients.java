@@ -146,7 +146,7 @@ public class ManagerClients {
 					System.out.println("Please input the Location(mtl/lvl/ddo)");
 					String d_location =keyboard.next();
 					String d_result = Client_Config.FRONT_END_IMPL.createDRecord(Client_Config.MANAGER_ID, d_firstname, d_lastname, d_address, d_phone, d_specialization, d_location);
-					System.out.println(d_result);
+					
 					if(!d_result.contains("is not right")){
 						System.out.println("Manager Creat Doctor Record Succeed!" + "\n" + d_result);
 					}
@@ -165,7 +165,7 @@ public class ManagerClients {
 					System.out.println("Please input the Status Date(yyyy/mm/dd/)");
 					String n_status_date = keyboard.next();
 					String n_result = Client_Config.FRONT_END_IMPL.createNRecord(Client_Config.MANAGER_ID ,n_firstname, n_lastname, n_designation, n_status, n_status_date);
-					System.out.println(n_result);
+					
 					if(!n_result.contains("is not right")){
 						System.out.println("Manager Creat Doctor Record Succeed!" + "\n" + n_result);
 					}
@@ -176,7 +176,7 @@ public class ManagerClients {
 					System.out.println("Please input search type");
 					String searchtype = keyboard.next();
 					String s_result = Client_Config.FRONT_END_IMPL.getRecordCounts(Client_Config.MANAGER_ID, searchtype);
-					System.out.println(s_result);
+					
 					System.out.println("Get Record Counts: " + "\n" + s_result);
 					showMenu(Client_Config.MANAGER_ID);
 					break;
@@ -189,7 +189,7 @@ public class ManagerClients {
 					System.out.println("Please input the New Value");
 					String e_newvalue = keyboard.next();
 					String e_result = Client_Config.FRONT_END_IMPL.editRecord(Client_Config.MANAGER_ID, e_recordID, e_fieldname, e_newvalue);
-					System.out.println(e_result);
+					
 					if(!e_result.contains("is not right")){
 						System.out.println("Manager Creat Doctor Record Succeed!" + "\n" + e_result);
 					}
@@ -202,7 +202,7 @@ public class ManagerClients {
 					System.out.println("Please input the remote clinic server name.(mtl/lvl/ddo)");
 					String t_remoteClinicServerName = keyboard.next();
 					String t_result = Client_Config.FRONT_END_IMPL.transferRecord(Client_Config.MANAGER_ID, t_recordID, t_remoteClinicServerName);
-					System.out.println(t_result);
+					
 					if(!t_result.contains("is not right")){
 						System.out.println("Manager Transfer Record Succeed!" + "\n" + t_result);
 					}

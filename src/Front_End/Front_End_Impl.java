@@ -22,16 +22,17 @@ public class Front_End_Impl extends Front_EndPOA{
 	
 	@Override
 	public String createDRecord(String managerId, String firstName, String lastName, String address, String phone,
-			String specialization, String location) {
+			String specialization, String location) {	
 		String request_id = getNumberFromRequestIDGenerator();
 		String function_id = "001";
-		String content = firstName+","+lastName+","+address+","+phone+","+specialization+","+location;
-		String message = request_id+","+function_id+","+content;
+		String manager_id = managerId;
 		
-		String result = sendMessageToPrimaryServer(managerId, message);
+		String content = firstName+"\n"+lastName+"\n"+address+"\n"+phone+"\n"+specialization+"\n"+location;
 		
-
-		return "success";
+		String message = request_id+"\n"+function_id+"\n"+manager_id+"\n"+content;
+		String result = sendMessageToPrimaryServer(message);
+		
+		return result;
 	}
 
 	@Override
@@ -39,42 +40,53 @@ public class Front_End_Impl extends Front_EndPOA{
 			String statusDate) {
 		String request_id = getNumberFromRequestIDGenerator();
 		String function_id = "002";
-		String content = firstName+","+lastName+","+designation+","+status+","+statusDate;
-		String message = request_id+","+function_id+","+content;
+		String manager_id = managerId;
 		
-		String result = sendMessageToPrimaryServer(managerId, message);
+		String content = firstName+"\n"+lastName+"\n"+designation+"\n"+status+"\n"+statusDate;
 		
-		return "success";
+		String message = request_id+"\n"+function_id+"\n"+manager_id + "\n"+content;
+		String result = sendMessageToPrimaryServer(message);
+		
+		return result;
 	}
 
 	@Override
 	public String getRecordCounts(String managerId, String recordType) {
 		String request_id = getNumberFromRequestIDGenerator();
 		String function_id = "003";
-		String content = recordType;
-		String message = request_id+","+function_id+","+content;
+		String manager_id = managerId;
 		
-		String result = sendMessageToPrimaryServer(managerId, message);
+		String content = recordType;
+		String message = request_id+"\n"+function_id+"\n"+manager_id + "\n"+content;
+		
+		String result = sendMessageToPrimaryServer(message);
 
-		return "success";
+		return result;
 	}
 
 	@Override
 	public String editRecord(String managerId, String recordID, String fieldName, String newValue) {
 		String request_id = getNumberFromRequestIDGenerator();
 		String function_id = "004";
+		String manager_id = managerId;
+		String content = recordID + "\n" + fieldName + "\n" + newValue;
 		
-		System.out.println(managerId + " Edit Record");
-		return "success";
+		String message = request_id+"\n"+function_id+"\n"+manager_id+"\n"+content;
+		String result = sendMessageToPrimaryServer(message);
+		return result;
 	}
 
 	@Override
 	public String transferRecord(String managerId, String recordID, String remoteClinicServerName) {
 		String request_id = getNumberFromRequestIDGenerator();
 		String function_id = "005";
+		String manager_id = managerId;
 		
-		System.out.println(managerId + " Transfer Record");
-		return "success";
+		String content = recordID + "\n" + remoteClinicServerName;
+		
+		String message = request_id+"\n"+function_id+"\n"+manager_id+"\n"+content;
+		String result = sendMessageToPrimaryServer(message);
+		return result;
 	}
 	
 	/**
@@ -106,8 +118,52 @@ public class Front_End_Impl extends Front_EndPOA{
 		return null; 
 	}
 	
-	public static String sendMessageToPrimaryServer(String managerId, String message){
+	public static String sendMessageToPrimaryServer(String n_message){
+		/*
+		 * new_message is like
+		 * 0001 ---> requestID
+		 * 001 ----> function_ID
+		 * mtl10000 ---> managerID
+		 * dong ----> first_name
+		 * chen -----> last_name
+		 * montreal,downtown ---> address
+		 * 5145899900 ---> phone
+		 * mtl ---> location
+		 */
+		System.out.println(n_message);
 		
-		return null;
+		// put the request in the hash table first
+		// key = requestID, value = message itself
+		System.out.println("Add request: "+ n_message.split("\n")[0] +" to hashtable");
+		Front_End_Config.REQUEST_HASH_TABLE.put(n_message.split("\n")[0], n_message);
+		
+		
+		DatagramSocket socket = null;
+	    try {
+	    	socket = new DatagramSocket();
+	    	byte[] message = (new String(n_message)).getBytes();
+	    	InetAddress host = InetAddress.getByName(Front_End_Config.PRIMARY_SERVER_IP);
+	    	DatagramPacket request = new DatagramPacket(message, message.length, host, Front_End_Config.PRIMARY_SERVER_PORT);
+	    	socket.send(request);
+	    	byte[] buffer = new byte[1000];
+	    	DatagramPacket reply = new DatagramPacket(buffer, buffer.length); 
+	    	socket.receive(reply);
+	    	String result = new String(reply.getData()).trim();
+	    	if(result.equals("OK")){
+	    		// if acknowledgement is OK then remove the request from hash map;
+	    		System.out.println("delete request: "+ n_message.split("\n")[0] +" from hashtable");
+	    		Front_End_Config.REQUEST_HASH_TABLE.remove(n_message.split("\n")[0]);
+	    	}
+	    	return result;
+	    }
+	    catch(Exception e){
+	    	System.out.println("Socket: " + e.getMessage()); 
+	    	}
+		finally{
+			if(socket != null){
+				socket.close();
+				}
+			}
+		return null; 
 	}
 }
