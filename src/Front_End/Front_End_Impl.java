@@ -3,10 +3,11 @@ package Front_End;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketTimeoutException;
 
 import org.omg.CORBA.ORB;
 
-import FRONT_END_CORBA.Front_EndPOA;
+import Front_End.FRONT_END_CORBA.Front_EndPOA;
 
 public class Front_End_Impl extends Front_EndPOA{
 
@@ -130,13 +131,11 @@ public class Front_End_Impl extends Front_EndPOA{
 		 * 5145899900 ---> phone
 		 * mtl ---> location
 		 */
-		System.out.println(n_message);
 		
 		// put the request in the hash table first
 		// key = requestID, value = message itself
 		System.out.println("Add request: "+ n_message.split("\n")[0] +" to hashtable");
 		Front_End_Config.REQUEST_HASH_TABLE.put(n_message.split("\n")[0], n_message);
-		
 		
 		DatagramSocket socket = null;
 	    try {
@@ -144,21 +143,32 @@ public class Front_End_Impl extends Front_EndPOA{
 	    	byte[] message = (new String(n_message)).getBytes();
 	    	InetAddress host = InetAddress.getByName(Front_End_Config.PRIMARY_SERVER_IP);
 	    	DatagramPacket request = new DatagramPacket(message, message.length, host, Front_End_Config.PRIMARY_SERVER_PORT);
+	    	
 	    	socket.send(request);
+	    	socket.setSoTimeout(5000);
 	    	byte[] buffer = new byte[1000];
-	    	DatagramPacket reply = new DatagramPacket(buffer, buffer.length); 
-	    	socket.receive(reply);
-	    	String result = new String(reply.getData()).trim();
-	    	if(result.equals("OK")){
-	    		// if acknowledgement is OK then remove the request from hash map;
-	    		System.out.println("delete request: "+ n_message.split("\n")[0] +" from hashtable");
-	    		Front_End_Config.REQUEST_HASH_TABLE.remove(n_message.split("\n")[0]);
+	    	DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
+	    	while(true){
+	    		try {
+	    			socket.receive(reply);
+	    			String result = new String(reply.getData()).trim();
+	    			if(result.equals("OK")){
+	    	    		// if acknowledgement is OK then remove the request from hash map;
+	    	    		System.out.println("delete request: "+ n_message.split("\n")[0] +" from hashtable");
+	    	    		Front_End_Config.REQUEST_HASH_TABLE.remove(n_message.split("\n")[0]);
+	    	    	}else{
+	    	    		return result;
+	    	    	}
+	    		} catch (SocketTimeoutException e) {
+	    			InetAddress host_resend = InetAddress.getByName(Front_End_Config.PRIMARY_SERVER_IP);
+	    			DatagramPacket request_resend = new DatagramPacket(message, message.length, host_resend, Front_End_Config.PRIMARY_SERVER_PORT);
+	    			socket.send(request_resend);
+	    		}
 	    	}
-	    	return result;
 	    }
 	    catch(Exception e){
-	    	System.out.println("Socket: " + e.getMessage()); 
-	    	}
+	    	e.printStackTrace();
+	    }
 		finally{
 			if(socket != null){
 				socket.close();

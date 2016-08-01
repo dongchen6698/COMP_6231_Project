@@ -9,8 +9,8 @@ import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 
-import FRONT_END_CORBA.Front_End;
-import FRONT_END_CORBA.Front_EndHelper;
+import Front_End.FRONT_END_CORBA.Front_End;
+import Front_End.FRONT_END_CORBA.Front_EndHelper;
 
 /**
  * This is a Client side of DSMS.

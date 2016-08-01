@@ -12,7 +12,10 @@ public class Front_End_Config {
 	
 	// Request Generator IP and Port information
 	static String REQUESTID_GENERATOR_IP = "127.0.0.1";
-	static int REQUESTID_GENERATOR_PORT = 6000;
+	static int REQUESTID_GENERATOR_PORT = 3000;
+	
+
+	static int LOCAL_LISTENING_PORT = 3500;
 	
 	// Leader Host IP and Port
 	static String PRIMARY_SERVER_IP = "127.0.0.1";

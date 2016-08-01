@@ -9,8 +9,8 @@ import org.omg.CosNaming.NamingContextExtHelper;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
 
-import FRONT_END_CORBA.Front_End;
-import FRONT_END_CORBA.Front_EndHelper;
+import Front_End.FRONT_END_CORBA.Front_End;
+import Front_End.FRONT_END_CORBA.Front_EndHelper;
 
 
 public class Front_End_Server {
@@ -18,6 +18,7 @@ public class Front_End_Server {
 		init_Front_End_CORBA(args);
 	}
 	
+
 	public static void init_Front_End_CORBA(String[] args){
 		try {
 			//initial the port number of 1050;

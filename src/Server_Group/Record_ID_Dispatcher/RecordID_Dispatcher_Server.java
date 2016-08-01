@@ -1,10 +1,10 @@
-package Server_Group.Replica_1.Server_COUNT;
+package Server_Group.Record_ID_Dispatcher;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
-public class RecordID_Assign_Server {
+public class RecordID_Dispatcher_Server {
 	private static int startNumber = 10000;
 	
 	/**
@@ -16,7 +16,7 @@ public class RecordID_Assign_Server {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println("RecordID Assign Server Ready And Waiting ...");
+		System.out.println("RecordID Dispatcher Server Ready And Waiting ...");
 		openUDPListener();
 	}
 	
@@ -27,7 +27,7 @@ public class RecordID_Assign_Server {
 	public static void openUDPListener(){
 		DatagramSocket socket = null;
 		try{
-			socket = new DatagramSocket(Config_RecordID_Assign_Server.LOCAL_LISTENING_PORT);
+			socket = new DatagramSocket(Config_RecordID_Dispatcher_Server.LOCAL_LISTENING_PORT);
 			while(true){
 				byte[] buffer = new byte[100]; 
 				DatagramPacket request = new DatagramPacket(buffer, buffer.length); 
@@ -59,7 +59,7 @@ public class RecordID_Assign_Server {
 			System.out.println(content);
 			switch (content) {
 			case "getRecordIdNumber":
-				result = Integer.toString(RecordID_Assign_Server.getSartNumber());
+				result = Integer.toString(RecordID_Dispatcher_Server.getSartNumber());
 				break;
 			}
 			this.start();

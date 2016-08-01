@@ -1,4 +1,4 @@
-package Request_ID_Generator;
+package Request_ID_Dispatcher;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

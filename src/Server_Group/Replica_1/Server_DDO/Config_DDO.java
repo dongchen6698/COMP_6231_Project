@@ -32,12 +32,12 @@ public class Config_DDO {
 	static ArrayList<RecordInfo> RECORD_LIST = null;
 	static String HOST_NAME = "127.0.0.1";
 	static String ORB_INITIAL_PORT = "1050";
-	static String SERVER_NAME = "server_ddo";
+	static String SERVER_NAME = "rp_1_ddo";
 	static int LOCAL_LISTENING_PORT = 4003;
 	static Logger LOGGER = null;
 	static FileHandler FH = null;
 	
-	static int SERVER_PORT_RECORDID_ASSIGN = 4500;
+	static int SERVER_PORT_RECORDID_ASSIGN = 7000;
 	static int SERVER_PORT_MTL = 4001;
 	static int SERVER_PORT_LVL = 4002;
 	static int SERVER_PORT_DDO = 4003;

@@ -1,6 +1,6 @@
 package Client_Side;
 
-import FRONT_END_CORBA.Front_End;
+import Front_End.FRONT_END_CORBA.Front_End;
 
 /**
  * this is configuration class
