@@ -1,4 +1,4 @@
-package Server_Group.Replica_1.UDP_Replica_Manager;
+package Server_Group.Replica_2.UDP_Replica_Manager;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -71,7 +71,6 @@ public class UDP_CORBA_Connection_Thread extends Thread{
 	public void run() {
 		try {
 			if(socket.getLocalPort() == Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT){
-				System.out.println(result);
 				DatagramPacket reply = new DatagramPacket(result.getBytes(),result.getBytes().length, request.getAddress(), request.getPort());
 				socket.send(reply);
 			}

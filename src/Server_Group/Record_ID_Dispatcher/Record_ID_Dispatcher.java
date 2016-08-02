@@ -1,23 +1,22 @@
-package Request_ID_Dispatcher;
+package Server_Group.Record_ID_Dispatcher;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
-public class Request_ID_Generator {
-	private static int startNumber = 1;
+public class Record_ID_Dispatcher {
+	private static int startNumber = 10000;
 	
 	/**
 	 * This method is get the number of the ID
 	 * @return int
 	 */
-	
-	public static synchronized int getRequestID(){
+	public static synchronized int getSartNumber(){
 		return startNumber++;
 	}
 	
 	public static void main(String[] args) {
-		System.out.println("RequestID Generator Server Ready And Waiting ...");
+		System.out.println("RecordID Dispatcher Server Ready And Waiting ...");
 		openUDPListener();
 	}
 	
@@ -28,7 +27,7 @@ public class Request_ID_Generator {
 	public static void openUDPListener(){
 		DatagramSocket socket = null;
 		try{
-			socket = new DatagramSocket(Request_ID_Generator_Config.LOCAL_LISTENING_PORT);
+			socket = new DatagramSocket(Record_ID_Dispatcher_Config.LOCAL_LISTENING_PORT);
 			while(true){
 				byte[] buffer = new byte[100]; 
 				DatagramPacket request = new DatagramPacket(buffer, buffer.length); 
@@ -59,8 +58,8 @@ public class Request_ID_Generator {
 			String content = new String(request.getData()).trim();
 			System.out.println(content);
 			switch (content) {
-			case "getRequestIdNumber":
-				result = String.format("%04d", getRequestID());
+			case "getRecordIdNumber":
+				result = Integer.toString(Record_ID_Dispatcher.getSartNumber());
 				break;
 			}
 			this.start();
@@ -76,5 +75,4 @@ public class Request_ID_Generator {
 			}
 		}
 	}
-
 }

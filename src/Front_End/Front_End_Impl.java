@@ -173,7 +173,7 @@ public class Front_End_Impl extends Front_EndPOA{
 			if(socket != null){
 				socket.close();
 				}
-			}
-		return null; 
+		}
+		return null;
 	}
 }

@@ -1,4 +1,4 @@
-package Server_Group.Replica_1.UDP_Replica_Manager;
+package Server_Group.Replica_3.UDP_Replica_Manager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,9 +12,9 @@ public class Replica_Manager_Config {
 	static Map<String, String> REQUEST_HASH_TABLE = new HashMap<String, String>();
 	
 	// Send this port to FE to update the primary leader port;
-	static int LOCAL_FRONT_END_LISTENING_PORT = 4000;
+	static int LOCAL_FRONT_END_LISTENING_PORT = 6000;
 	// This port is only for broadcast.
-	static int LOCAL_BROAD_CAST_LISTENING_PORT = 4100;
+	static int LOCAL_BROAD_CAST_LISTENING_PORT = 6100;
 	static String LOCAL_MTL_SERVER_NAME = "host_1_mtl";
 	static String LOCAL_LVL_SERVER_NAME = "host_1_lvl";
 	static String LOCAL_DDO_SERVER_NAME = "host_1_ddo";

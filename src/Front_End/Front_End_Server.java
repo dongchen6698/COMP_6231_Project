@@ -16,6 +16,8 @@ import Front_End.FRONT_END_CORBA.Front_EndHelper;
 public class Front_End_Server {
 	public static void main(String[] args) {
 		init_Front_End_CORBA(args);
+		//System.out.println("open a listener for update the config file of leader info.");
+		//open_UDP_Listener_For_Update_Leader_info();
 	}
 	
 
@@ -62,5 +64,15 @@ public class Front_End_Server {
 	        e.printStackTrace(System.out);
 		}
 		System.out.println("Front End Server Exiting ...");
+	}
+	
+	public static void open_UDP_Listener_For_Update_Leader_info(){
+		Thread update = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				
+			}
+		});
+		update.start();
 	}
 }
