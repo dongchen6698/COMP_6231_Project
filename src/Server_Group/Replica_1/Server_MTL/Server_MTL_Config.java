@@ -11,7 +11,7 @@ import Server_Group.Replica_1.Record_Type.DoctorRecord;
 import Server_Group.Replica_1.Record_Type.RecordInfo;
 
 
-public class Config_MTL {
+public class Server_MTL_Config {
 	static enum D_LOCATION{
 		mtl,lvl,ddo
 	}	

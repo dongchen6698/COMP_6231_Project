@@ -24,12 +24,12 @@ public class Clinic_MTL_UDP_Listener implements Runnable{
 	public void run() {
 		DatagramSocket socket = null;
 		try{
-			socket = new DatagramSocket(Config_MTL.LOCAL_LISTENING_PORT);
+			socket = new DatagramSocket(Server_MTL_Config.LOCAL_LISTENING_PORT);
 			while(true){
 				byte[] buffer = new byte[1000]; 
 				DatagramPacket request = new DatagramPacket(buffer, buffer.length);
 				socket.receive(request);
-				Config_MTL.LOGGER.info("Get request: " + (new String(request.getData()).trim())+ "\n" + "Start a new thread to handle this.");
+				Server_MTL_Config.LOGGER.info("Get request: " + (new String(request.getData()).trim())+ "\n" + "Start a new thread to handle this.");
 				
 				
 				new Connection(socket, request);
@@ -58,11 +58,11 @@ public class Clinic_MTL_UDP_Listener implements Runnable{
 			String requestcode = new String(request.getData()).trim().substring(0, 3);
 			switch (requestcode) {
 			case "002":
-				Config_MTL.LOGGER.info("Request code: " + requestcode + ", " + "Search HashMap, SearchType: " + (new String(request.getData()).trim().substring(4)));
+				Server_MTL_Config.LOGGER.info("Request code: " + requestcode + ", " + "Search HashMap, SearchType: " + (new String(request.getData()).trim().substring(4)));
 				result = getLocalHashSize(new String(request.getData()).trim().substring(4));
 				break;
 			case "003":
-				Config_MTL.LOGGER.info("Request code: " + requestcode + ", " + "Transfer Record, Record: " + (new String(request.getData()).trim().substring(4)));
+				Server_MTL_Config.LOGGER.info("Request code: " + requestcode + ", " + "Transfer Record, Record: " + (new String(request.getData()).trim().substring(4)));
 				result = insertRecordInLocalHashMap(new String(request.getData()).trim().substring(4));
 				break;
 			}
@@ -89,7 +89,7 @@ public class Clinic_MTL_UDP_Listener implements Runnable{
 		int dr_num = 0;
 		int nr_num = 0;
 		
-		for(Map.Entry<Character, ArrayList<RecordInfo>> entry:Config_MTL.HASH_TABLE.entrySet()){
+		for(Map.Entry<Character, ArrayList<RecordInfo>> entry:Server_MTL_Config.HASH_TABLE.entrySet()){
 			for(RecordInfo record:entry.getValue()){
 				switch(record.getRecordID().substring(0, 2)){
 				case "DR":
@@ -118,22 +118,22 @@ public class Clinic_MTL_UDP_Listener implements Runnable{
 	public static synchronized String insertRecordInLocalHashMap(String recordInfo){
 		String[] record = recordInfo.split("\n");
 		if(record[0].contains("DR")){
-			if(Config_MTL.HASH_TABLE.containsKey(record[2].split(": ")[1].charAt(0))){
-				Config_MTL.RECORD_LIST = Config_MTL.HASH_TABLE.get(record[2].split(": ")[1].charAt(0));
+			if(Server_MTL_Config.HASH_TABLE.containsKey(record[2].split(": ")[1].charAt(0))){
+				Server_MTL_Config.RECORD_LIST = Server_MTL_Config.HASH_TABLE.get(record[2].split(": ")[1].charAt(0));
 			}else{
-				Config_MTL.RECORD_LIST = new ArrayList<RecordInfo>();
+				Server_MTL_Config.RECORD_LIST = new ArrayList<RecordInfo>();
 			}
-			Config_MTL.RECORD_LIST.add(new RecordInfo(record[0].split(": ")[1], new DoctorRecord(record[1].split(": ")[1], record[2].split(": ")[1], record[3].split(": ")[1], record[4].split(": ")[1], record[5].split(": ")[1], record[6].split(": ")[1])));
-			Config_MTL.HASH_TABLE.put(record[2].split(": ")[1].charAt(0), Config_MTL.RECORD_LIST);
+			Server_MTL_Config.RECORD_LIST.add(new RecordInfo(record[0].split(": ")[1], new DoctorRecord(record[1].split(": ")[1], record[2].split(": ")[1], record[3].split(": ")[1], record[4].split(": ")[1], record[5].split(": ")[1], record[6].split(": ")[1])));
+			Server_MTL_Config.HASH_TABLE.put(record[2].split(": ")[1].charAt(0), Server_MTL_Config.RECORD_LIST);
 			return "Transfer doctor record success.";
 		}else if(record[0].contains("NR")){
-			if(Config_MTL.HASH_TABLE.containsKey(record[2].split(": ")[1].charAt(0))){
-				Config_MTL.RECORD_LIST = Config_MTL.HASH_TABLE.get(record[2].split(": ")[1].charAt(0));
+			if(Server_MTL_Config.HASH_TABLE.containsKey(record[2].split(": ")[1].charAt(0))){
+				Server_MTL_Config.RECORD_LIST = Server_MTL_Config.HASH_TABLE.get(record[2].split(": ")[1].charAt(0));
 			}else{
-				Config_MTL.RECORD_LIST = new ArrayList<RecordInfo>();
+				Server_MTL_Config.RECORD_LIST = new ArrayList<RecordInfo>();
 			}
-			Config_MTL.RECORD_LIST.add(new RecordInfo(record[0].split(": ")[1], new NurseRecord(record[1].split(": ")[1], record[2].split(": ")[1], record[3].split(": ")[1], record[4].split(": ")[1], record[5].split(": ")[1])));
-			Config_MTL.HASH_TABLE.put(record[2].split(": ")[1].charAt(0), Config_MTL.RECORD_LIST);
+			Server_MTL_Config.RECORD_LIST.add(new RecordInfo(record[0].split(": ")[1], new NurseRecord(record[1].split(": ")[1], record[2].split(": ")[1], record[3].split(": ")[1], record[4].split(": ")[1], record[5].split(": ")[1])));
+			Server_MTL_Config.HASH_TABLE.put(record[2].split(": ")[1].charAt(0), Server_MTL_Config.RECORD_LIST);
 			return "Transfer nurse record success.";
 		}
 		return "Transfer record fail.";

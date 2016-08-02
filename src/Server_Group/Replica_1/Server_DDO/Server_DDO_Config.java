@@ -1,4 +1,4 @@
-package Server_Group.Replica_1.Server_LVL;
+package Server_Group.Replica_1.Server_DDO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,11 +7,13 @@ import java.util.Map;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
+import Server_Group.Replica_1.Record_Type.DoctorRecord;
 import Server_Group.Replica_1.Record_Type.NurseRecord;
 import Server_Group.Replica_1.Record_Type.RecordInfo;
 
 
-public class Config_LVL {
+
+public class Server_DDO_Config {
 	static enum D_LOCATION{
 		mtl,lvl,ddo
 	}	
@@ -23,15 +25,15 @@ public class Config_LVL {
 	}
 	static Map<Character, ArrayList<RecordInfo>> HASH_TABLE = new HashMap<Character, ArrayList<RecordInfo>>(){
 		{
-			put('W', new ArrayList<RecordInfo>(Arrays.asList(new RecordInfo("NR00003", new NurseRecord("seven", "Wang", "junior", "active", "2005/09/12")))));
-			put('H', new ArrayList<RecordInfo>(Arrays.asList(new RecordInfo("NR00004", new NurseRecord("eight", "Hu", "junior", "active", "2016/09/12")))));
+			put('Z', new ArrayList<RecordInfo>(Arrays.asList(new RecordInfo("DR00005", new DoctorRecord("ten", "Zhang", "Montreal", "5142345678", "Surgery", "mtl")))));
+			put('H', new ArrayList<RecordInfo>(Arrays.asList(new RecordInfo("NR00006", new NurseRecord("twelve", "Hu", "junior", "active", "2016/09/12")))));
 		}
 	};
 	static ArrayList<RecordInfo> RECORD_LIST = null;
 	static String HOST_NAME = "127.0.0.1";
 	static String ORB_INITIAL_PORT = "1050";
-	static String SERVER_NAME = "host_1_lvl";
-	static int LOCAL_LISTENING_PORT = 4002;
+	static String SERVER_NAME = "host_1_ddo";
+	static int LOCAL_LISTENING_PORT = 4003;
 	static Logger LOGGER = null;
 	static FileHandler FH = null;
 	

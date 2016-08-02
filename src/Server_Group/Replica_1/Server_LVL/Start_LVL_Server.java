@@ -17,10 +17,10 @@ import Client_Side.ManagerClients;
 import Server_Group.Replica_1.DSMS_CORBA.DSMS;
 import Server_Group.Replica_1.DSMS_CORBA.DSMSHelper;
 
-public class Clinic_LVL_Server {
+public class Start_LVL_Server {
 	public static void main(String[] args) {
 		System.out.println("Initial Logger Of Server Laval...");
-		initLogger(Config_LVL.SERVER_NAME);
+		initLogger(Server_LVL_Config.SERVER_NAME);
 		System.out.println("Initial UDP Listener Of Server Laval...");
 		openUDPListener();
 		System.out.println("Initial CORBA Of Server Laval...");
@@ -34,12 +34,12 @@ public class Clinic_LVL_Server {
 	public static void initLogger(String server_name){
 		try {
 			String dir = "Server_Side_Log/";
-			Config_LVL.LOGGER = Logger.getLogger(ManagerClients.class.getName());
-			Config_LVL.LOGGER.setUseParentHandlers(false);
-			Config_LVL.FH = new FileHandler(dir+server_name+".log",true);
-			Config_LVL.LOGGER.addHandler(Config_LVL.FH);
+			Server_LVL_Config.LOGGER = Logger.getLogger(ManagerClients.class.getName());
+			Server_LVL_Config.LOGGER.setUseParentHandlers(false);
+			Server_LVL_Config.FH = new FileHandler(dir+server_name+".log",true);
+			Server_LVL_Config.LOGGER.addHandler(Server_LVL_Config.FH);
 			SimpleFormatter formatter = new SimpleFormatter();
-			Config_LVL.FH.setFormatter(formatter);
+			Server_LVL_Config.FH.setFormatter(formatter);
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -63,7 +63,7 @@ public class Clinic_LVL_Server {
 		try {
 			//initial the port number of 1050;
 			Properties props = new Properties();
-	        props.put("org.omg.CORBA.ORBInitialPort", Config_LVL.ORB_INITIAL_PORT);
+	        props.put("org.omg.CORBA.ORBInitialPort", Server_LVL_Config.ORB_INITIAL_PORT);
 	        
 			// create and initialize the ORB
 			ORB orb = ORB.init(args, props);
@@ -89,7 +89,7 @@ public class Clinic_LVL_Server {
 			NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
 
 			// bind the Object Reference in Naming
-			String name = Config_LVL.SERVER_NAME;
+			String name = Server_LVL_Config.SERVER_NAME;
 			NameComponent path[] = ncRef.to_name(name);
 			ncRef.rebind(path, href);
 

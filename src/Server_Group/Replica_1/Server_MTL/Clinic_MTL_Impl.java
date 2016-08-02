@@ -37,21 +37,21 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 		RecordInfo doc_recorde_with_recordID = null;
 		
 		Character capital_lastname = lastName.charAt(0);
-		if(Config_MTL.HASH_TABLE.containsKey(capital_lastname)){
-			Config_MTL.RECORD_LIST = Config_MTL.HASH_TABLE.get(capital_lastname);
+		if(Server_MTL_Config.HASH_TABLE.containsKey(capital_lastname)){
+			Server_MTL_Config.RECORD_LIST = Server_MTL_Config.HASH_TABLE.get(capital_lastname);
 		}else{
-			Config_MTL.RECORD_LIST = new ArrayList<RecordInfo>();
+			Server_MTL_Config.RECORD_LIST = new ArrayList<RecordInfo>();
 		}
 		DoctorRecord doc_recorde = new DoctorRecord(firstName, lastName, address, phone, specialization, location);
-		recordID = "DR" + sendMessageToOtherServer(Config_MTL.SERVER_PORT_RECORDID_ASSIGN, "getRecordIdNumber", "");
+		recordID = "DR" + sendMessageToOtherServer(Server_MTL_Config.SERVER_PORT_RECORDID_ASSIGN, "getRecordIdNumber", "");
 		doc_recorde_with_recordID = new RecordInfo(recordID, doc_recorde);
 		
 		synchronized (this) {
-			Config_MTL.RECORD_LIST.add(doc_recorde_with_recordID);
-			Config_MTL.HASH_TABLE.put(capital_lastname, Config_MTL.RECORD_LIST);
+			Server_MTL_Config.RECORD_LIST.add(doc_recorde_with_recordID);
+			Server_MTL_Config.HASH_TABLE.put(capital_lastname, Server_MTL_Config.RECORD_LIST);
 		}
-		System.out.println(Config_MTL.LOGGER);
-		Config_MTL.LOGGER.info("Manager: "+ managerId + " Creat Doctor Record: "+ "\n" +doc_recorde_with_recordID.toString());
+		System.out.println(Server_MTL_Config.LOGGER);
+		Server_MTL_Config.LOGGER.info("Manager: "+ managerId + " Creat Doctor Record: "+ "\n" +doc_recorde_with_recordID.toString());
 		return "Doctor Record Buid Succeed !" + "\n" +doc_recorde_with_recordID.toString();
 	}
 
@@ -71,53 +71,53 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 		RecordInfo nur_recorde_with_recordID = null;
 		 
 		Character capital_lastname = lastName.charAt(0);
-		if(Config_MTL.HASH_TABLE.containsKey(capital_lastname)){
-			Config_MTL.RECORD_LIST = Config_MTL.HASH_TABLE.get(capital_lastname);
+		if(Server_MTL_Config.HASH_TABLE.containsKey(capital_lastname)){
+			Server_MTL_Config.RECORD_LIST = Server_MTL_Config.HASH_TABLE.get(capital_lastname);
 		}else{
-			Config_MTL.RECORD_LIST = new ArrayList<RecordInfo>();
+			Server_MTL_Config.RECORD_LIST = new ArrayList<RecordInfo>();
 		}
 		NurseRecord nur_recorde = new NurseRecord(firstName, lastName, designation, status, statusDate);
-		recordID = "NR" + sendMessageToOtherServer(Config_MTL.SERVER_PORT_RECORDID_ASSIGN, "getRecordIdNumber", "");
+		recordID = "NR" + sendMessageToOtherServer(Server_MTL_Config.SERVER_PORT_RECORDID_ASSIGN, "getRecordIdNumber", "");
 		nur_recorde_with_recordID = new RecordInfo(recordID, nur_recorde);
 		
 		synchronized (this) {
-			Config_MTL.RECORD_LIST.add(nur_recorde_with_recordID);
-			Config_MTL.HASH_TABLE.put(capital_lastname, Config_MTL.RECORD_LIST);
+			Server_MTL_Config.RECORD_LIST.add(nur_recorde_with_recordID);
+			Server_MTL_Config.HASH_TABLE.put(capital_lastname, Server_MTL_Config.RECORD_LIST);
 		}
-		Config_MTL.LOGGER.info("Manager: "+ managerId + " Creat Nurse Record: "+ "\n" +nur_recorde_with_recordID.toString());
+		Server_MTL_Config.LOGGER.info("Manager: "+ managerId + " Creat Nurse Record: "+ "\n" +nur_recorde_with_recordID.toString());
 		return "Nurse Record Buid Succeed !" + "\n" +nur_recorde_with_recordID.toString();
 	}
 
 	@Override
 	public String getRecordCounts(String managerId, String recordType) {
-		String lvl_hash_size = sendMessageToOtherServer(Config_MTL.SERVER_PORT_LVL, recordType, "002");
-		String ddo_hash_size = sendMessageToOtherServer(Config_MTL.SERVER_PORT_DDO, recordType, "002");
+		String lvl_hash_size = sendMessageToOtherServer(Server_MTL_Config.SERVER_PORT_LVL, recordType, "002");
+		String ddo_hash_size = sendMessageToOtherServer(Server_MTL_Config.SERVER_PORT_DDO, recordType, "002");
 		String mtl_hash_size = getLocalHashSize(recordType);
 		String result = mtl_hash_size + "\n" + lvl_hash_size + "\n" + ddo_hash_size + "\n";
-		Config_MTL.LOGGER.info("Manager: "+ managerId + " search RecordCounts: "+ "\n" + result);
+		Server_MTL_Config.LOGGER.info("Manager: "+ managerId + " search RecordCounts: "+ "\n" + result);
 		return result;
 	}
 
 	@Override
 	public String editRecord(String managerId, String recordID, String fieldName, String newValue) {
-		for(Map.Entry<Character, ArrayList<RecordInfo>> entry:Config_MTL.HASH_TABLE.entrySet()){
+		for(Map.Entry<Character, ArrayList<RecordInfo>> entry:Server_MTL_Config.HASH_TABLE.entrySet()){
 			for(RecordInfo record:entry.getValue()){
 				if(recordID.equalsIgnoreCase(record.getRecordID())){
 					if(recordID.contains("DR")||recordID.contains("dr")){
 						if(fieldName.equalsIgnoreCase("Address")){
 							record.getDoctorRecord().setAddress(newValue);
-							Config_MTL.LOGGER.info("Manager: "+ managerId + " edit the Address of Doctor Record: "+ "\n" + record.toString());
+							Server_MTL_Config.LOGGER.info("Manager: "+ managerId + " edit the Address of Doctor Record: "+ "\n" + record.toString());
 							return "edit succeed !\n"+record.toString();
 						}else if(fieldName.equalsIgnoreCase("Phone")){
 							record.getDoctorRecord().setPhone(newValue);
-							Config_MTL.LOGGER.info("Manager: "+ managerId + " edit the phone of Doctor Record: "+ "\n" + record.toString());
+							Server_MTL_Config.LOGGER.info("Manager: "+ managerId + " edit the phone of Doctor Record: "+ "\n" + record.toString());
 							return "edit succeed !\n"+record.toString();
 						}else if (fieldName.equalsIgnoreCase("Location")){
 							if(!checkLocation(newValue)){
 								return "Location is not right. Please input (mtl,lvl or ddo).\n";
 							}
 							record.getDoctorRecord().setLocation(newValue);
-							Config_MTL.LOGGER.info("Manager: "+ managerId + " edit the Location of Doctor Record: "+ "\n" + record.toString());
+							Server_MTL_Config.LOGGER.info("Manager: "+ managerId + " edit the Location of Doctor Record: "+ "\n" + record.toString());
 							return "edit succeed !\n"+record.toString();
 						}
 					}else if(recordID.contains("NR")||recordID.contains("nr")){
@@ -126,18 +126,18 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 								return "Designation is not right. Please input (junior or senior).\n";
 							}
 							record.getNurseRecord().setDesignation(newValue);
-							Config_MTL.LOGGER.info("Manager: "+ managerId + " edit the Designation of Nurse Record: "+ "\n" + record.toString());
+							Server_MTL_Config.LOGGER.info("Manager: "+ managerId + " edit the Designation of Nurse Record: "+ "\n" + record.toString());
 							return "edit succeed !\n"+record.toString();
 						}else if(fieldName.equalsIgnoreCase("Status")){
 							if(!checkStatus(newValue)){
 								return "Status is not right. Please input (active or terminated).\n";
 							}
 							record.getNurseRecord().setStatus(newValue);
-							Config_MTL.LOGGER.info("Manager: "+ managerId + " edit the Status of Nurse Record: "+ "\n" + record.toString());
+							Server_MTL_Config.LOGGER.info("Manager: "+ managerId + " edit the Status of Nurse Record: "+ "\n" + record.toString());
 							return "edit succeed !\n"+record.toString();
 						}else if (fieldName.equalsIgnoreCase("statusDate")){
 							record.getNurseRecord().setStatusDate(newValue);
-							Config_MTL.LOGGER.info("Manager: "+ managerId + " edit the Status date of Nurse Record: "+ "\n" + record.toString());
+							Server_MTL_Config.LOGGER.info("Manager: "+ managerId + " edit the Status date of Nurse Record: "+ "\n" + record.toString());
 							return "edit succeed !\n"+record.toString();
 						}
 						
@@ -161,7 +161,7 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 			return "Location is not right. You can not transfer record to sever itself.";
 		}
 		String result = transferRecordToOtherServer(recordID, remoteClinicServerName);
-		Config_MTL.LOGGER.info("Manager: "+ managerId + " transfer recordID: "+ recordID + " to " + remoteClinicServerName + "success");
+		Server_MTL_Config.LOGGER.info("Manager: "+ managerId + " transfer recordID: "+ recordID + " to " + remoteClinicServerName + "success");
 		return result;
 	}
 	
@@ -171,7 +171,7 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 	 * @return
 	 */
 	public static Boolean checkRecordIDExistOrNot(String recordID){
-		for(Map.Entry<Character, ArrayList<RecordInfo>> entry:Config_MTL.HASH_TABLE.entrySet()){
+		for(Map.Entry<Character, ArrayList<RecordInfo>> entry:Server_MTL_Config.HASH_TABLE.entrySet()){
 			for(RecordInfo record:entry.getValue()){
 				if(recordID.equalsIgnoreCase(record.getRecordID())){
 					return true;
@@ -187,7 +187,7 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 	 * @return
 	 */
 	public static Boolean checkLocation(String location){
-		for(Config_MTL.D_LOCATION d_location: Config_MTL.D_LOCATION.values()){
+		for(Server_MTL_Config.D_LOCATION d_location: Server_MTL_Config.D_LOCATION.values()){
 			if(location.equals(d_location.toString())){
 				return true;
 			}
@@ -201,7 +201,7 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 	 * @return
 	 */
 	public static Boolean checkDesignation(String designation){
-		for(Config_MTL.N_DESIGNATION n_designation: Config_MTL.N_DESIGNATION.values()){
+		for(Server_MTL_Config.N_DESIGNATION n_designation: Server_MTL_Config.N_DESIGNATION.values()){
 			if(designation.equals(n_designation.toString())){
 				return true;
 			}
@@ -215,7 +215,7 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 	 * @return
 	 */
 	public static Boolean checkStatus(String status){
-		for(Config_MTL.N_STATUS n_status: Config_MTL.N_STATUS.values()){
+		for(Server_MTL_Config.N_STATUS n_status: Server_MTL_Config.N_STATUS.values()){
 			if(status.equals(n_status.toString())){
 				return true;
 			}
@@ -248,7 +248,7 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 	 */
 	public static String sendMessageToOtherServer(int serverPort, String content, String requestCode){
 		DatagramSocket socket = null;
-		String hostname = Config_MTL.HOST_NAME;
+		String hostname = Server_MTL_Config.HOST_NAME;
 		String requestcode = requestCode;
 		byte[] message = null;
 		
@@ -289,14 +289,14 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 		int serverPort = 0;
 		
 		if(remoteClinicServerName.equalsIgnoreCase("mtl")){
-			serverPort = Config_MTL.SERVER_PORT_MTL;
+			serverPort = Server_MTL_Config.SERVER_PORT_MTL;
 		}else if(remoteClinicServerName.equalsIgnoreCase("lvl")){
-			serverPort = Config_MTL.SERVER_PORT_LVL;
+			serverPort = Server_MTL_Config.SERVER_PORT_LVL;
 		}else if(remoteClinicServerName.equalsIgnoreCase("ddo")){
-			serverPort = Config_MTL.SERVER_PORT_DDO;
+			serverPort = Server_MTL_Config.SERVER_PORT_DDO;
 		}
 		
-		for(Map.Entry<Character, ArrayList<RecordInfo>> entry:Config_MTL.HASH_TABLE.entrySet()){
+		for(Map.Entry<Character, ArrayList<RecordInfo>> entry:Server_MTL_Config.HASH_TABLE.entrySet()){
 			for(RecordInfo record:entry.getValue()){
 				if(recordID.equalsIgnoreCase(record.getRecordID())){
 					String result = sendMessageToOtherServer(serverPort, record.toString(), "003");
@@ -319,7 +319,7 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 		int dr_num = 0;
 		int nr_num = 0;
 		
-		for(Map.Entry<Character, ArrayList<RecordInfo>> entry:Config_MTL.HASH_TABLE.entrySet()){
+		for(Map.Entry<Character, ArrayList<RecordInfo>> entry:Server_MTL_Config.HASH_TABLE.entrySet()){
 			for(RecordInfo record:entry.getValue()){
 				switch(record.getRecordID().substring(0, 2)){
 				case "DR":
