@@ -2,7 +2,6 @@ package Server_Group.Replica_2.UDP_Replica_Manager;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.SocketTimeoutException;
 import java.util.Map.Entry;
 
@@ -74,7 +73,7 @@ public class Front_End_Listener_Thread implements Runnable{
 					System.out.println("Send acknowledgement back to FE."+reply.getPort());
 					socket.send(reply);
 					System.out.println("Create new thread to handle the request from FE");
-					//new UDP_CORBA_Connection_Thread(socket, request);
+					new UDP_CORBA_Connection_Thread(socket, request);
 				}	
 			}
 		}

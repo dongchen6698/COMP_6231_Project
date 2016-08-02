@@ -20,9 +20,9 @@ public class Replica_Manager_Config {
 	static String LOCAL_DDO_SERVER_NAME = "host_1_ddo";
 	
 	static HashMap<Integer, String> PORT_HOST = new HashMap<Integer, String>(){{
-		put(4100, "Host_1");
-		put(5100, "Host_2");
-		put(6100, "Host_3");
+		put(4100, "Replica_1");
+		put(5100, "Replica_2");
+		put(6100, "Replica_3");
 	}};
 	
 }

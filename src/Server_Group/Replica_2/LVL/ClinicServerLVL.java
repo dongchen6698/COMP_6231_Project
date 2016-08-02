@@ -45,7 +45,10 @@ import org.omg.PortableServer.POAHelper;
 		public void run() {
 
 		    try {
-				ORB orb = ORB.init(args, null);
+		    	Properties props = new Properties();
+		    	props.put("org.omg.CORBA.ORBInitialPort", "1050");
+		    	
+				ORB orb = ORB.init(args, props);
 				POA rootPOA = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
 				rootPOA.the_POAManager().activate();
 				

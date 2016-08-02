@@ -19,7 +19,7 @@ public class Front_End_Config {
 	
 	// Leader Host IP and Port
 	static String PRIMARY_SERVER_IP = "127.0.0.1";
-	static int PRIMARY_SERVER_PORT = 4000;
+	static int PRIMARY_SERVER_PORT = 5000;
 	
 	// Front end hash table for storing the request information in case of message lost.
 	// First String is requestID, second String is request message for sending to leader host.like below

@@ -1,4 +1,4 @@
-package Server_Group.Record_ID_Dispatcher;
+package Server_Group.Replica_1.Record_ID_Dispatcher;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

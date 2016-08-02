@@ -47,10 +47,10 @@ public class ClinicServerDDO extends ClinicServerIntPOA implements Runnable{
 		public void run() {
 
 		    try {
-		    	//Properties props = new Properties();
-		    	//props.put("orb.omg.CORBA.ORBInitialPort", value)
+		    	Properties props = new Properties();
+		    	props.put("org.omg.CORBA.ORBInitialPort", "1050");
 		    	
-				ORB orb = ORB.init(args, null);
+				ORB orb = ORB.init(args, props);
 				POA rootPOA = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
 				rootPOA.the_POAManager().activate();
 				
