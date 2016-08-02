@@ -1,0 +1,379 @@
+Aug 02, 2016 8:08:21 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: abcabv
+Phone: 123123
+specialization: abcabc
+location: mtl
+
+Aug 02, 2016 8:08:31 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10001
+First Name: dong
+Last Name: chen
+Address: abcabv
+Phone: 123123
+specialization: abcabc
+location: mtl
+
+Aug 02, 2016 8:08:41 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10002
+First Name: dong
+Last Name: chen
+Address: abcabv
+Phone: 123123
+specialization: abcabc
+location: mtl
+
+Aug 02, 2016 8:15:11 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: 123123
+Phone: 123123
+specialization: 123123
+location: mtl
+
+Aug 02, 2016 8:15:21 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10001
+First Name: dong
+Last Name: chen
+Address: 123123
+Phone: 123123
+specialization: 123123
+location: mtl
+
+Aug 02, 2016 8:15:31 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10002
+First Name: dong
+Last Name: chen
+Address: 123123
+Phone: 123123
+specialization: 123123
+location: mtl
+
+Aug 02, 2016 8:20:30 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10003
+First Name: dong
+Last Name: asdf
+Address: asdf
+Phone: asdf
+specialization: asdf
+location: mtl
+
+Aug 02, 2016 8:20:40 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10004
+First Name: dong
+Last Name: asdf
+Address: asdf
+Phone: asdf
+specialization: asdf
+location: mtl
+
+Aug 02, 2016 8:20:50 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10005
+First Name: dong
+Last Name: asdf
+Address: asdf
+Phone: asdf
+specialization: asdf
+location: mtl
+
+Aug 02, 2016 8:32:08 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: asdfasdf
+Phone: asdfasdf
+specialization: 123123
+location: mtl
+
+Aug 02, 2016 8:50:21 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10002 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: asdfasdf
+Phone: asdfasdf
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 8:57:47 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10001 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: asdfasdf
+Phone: asdfasdf
+specialization: adsfasdf
+location: mtl
+
+Aug 02, 2016 8:57:57 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10001 Creat Doctor Record: 
+RecordID: DR10001
+First Name: dong
+Last Name: chen
+Address: asdfasdf
+Phone: asdfasdf
+specialization: adsfasdf
+location: mtl
+
+Aug 02, 2016 8:58:07 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10001 Creat Doctor Record: 
+RecordID: DR10002
+First Name: dong
+Last Name: chen
+Address: asdfasdf
+Phone: asdfasdf
+specialization: adsfasdf
+location: mtl
+
+Aug 02, 2016 8:58:17 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10001 Creat Doctor Record: 
+RecordID: DR10003
+First Name: dong
+Last Name: chen
+Address: asdfasdf
+Phone: asdfasdf
+specialization: adsfasdf
+location: mtl
+
+Aug 02, 2016 8:58:27 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10001 Creat Doctor Record: 
+RecordID: DR10004
+First Name: dong
+Last Name: chen
+Address: asdfasdf
+Phone: asdfasdf
+specialization: adsfasdf
+location: mtl
+
+Aug 02, 2016 9:05:40 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10003 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: asdfasdf
+Phone: asdfasdf
+specialization: 12asdf
+location: mtl
+
+Aug 02, 2016 9:18:31 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 9:18:42 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10001
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 9:18:52 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10002
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 9:21:34 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 9:23:14 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10001
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 9:26:47 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 9:28:27 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10001
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 9:31:57 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 9:49:17 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 9:51:01 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10001
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 9:54:08 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 9:58:02 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 10:01:24 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 10:04:38 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 10:06:57 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 10:08:14 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 10:09:48 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 10:11:49 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 10:19:40 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: address
+Phone: 123123
+specialization: asdfasdf
+location: mtl
+
+Aug 02, 2016 10:22:59 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: dong
+Last Name: chen
+Address: asdfasdf
+Phone: 123123123
+specialization: abcasd
+location: mtl
+
+Aug 02, 2016 10:23:21 AM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createNRecord
+INFO: Manager: mtl10000 Creat Nurse Record: 
+RecordID: NR10001
+First Name: dong
+Last Name: adf
+Designation: junior
+Status: active
+StatusDate: 1990/09/09
+

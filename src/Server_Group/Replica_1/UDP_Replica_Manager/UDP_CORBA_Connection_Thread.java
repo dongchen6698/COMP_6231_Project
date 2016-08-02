@@ -67,6 +67,18 @@ public class UDP_CORBA_Connection_Thread extends Thread{
 		this.start();
 	}
 	
+	@Override
+	public void run() {
+		try {
+			if(socket.getLocalPort() == Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT){
+				DatagramPacket reply = new DatagramPacket(result.getBytes(),result.getBytes().length, request.getAddress(), request.getPort());
+				socket.send(reply);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static DSMS getServerReferrence(String n_managerID){
 		try {
 			//initial the port number of 1050;
@@ -95,17 +107,5 @@ public class UDP_CORBA_Connection_Thread extends Thread{
 			e.printStackTrace();
 		}	
 		return null;
-	}
-	
-	@Override
-	public void run() {
-		try {
-			if(socket.getLocalPort() == Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT){
-				DatagramPacket reply = new DatagramPacket(result.getBytes(),result.getBytes().length, request.getAddress(), request.getPort());
-				socket.send(reply);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }

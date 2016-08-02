@@ -12,19 +12,20 @@ public class Front_End_Listener_Thread implements Runnable{
 		
 	}
 	
-	public static Boolean Broad_Cast_Request(){
+	public static Boolean Broad_Cast_Request(DatagramPacket request){
 		DatagramSocket socket = null;
+		String message = new String(request.getData()).trim();
+		DatagramPacket new_request = new DatagramPacket(message.getBytes(), message.getBytes().length,request.getAddress(), request.getPort());
 	    try {
-	    	socket = new DatagramSocket();
-	    	socket.setSoTimeout(5000);
-	    	byte[] message = (new String("getRequestIdNumber")).getBytes();
-	    	InetAddress host = InetAddress.getByName(Replica_Manager_Config.HOST_NAME);
+	    	socket = new DatagramSocket(Replica_Manager_Config.LOCAL_BROAD_CAST_PORT);
+	    	socket.setSoTimeout(2000);
 	    	for(Entry<Integer, String> entry: Replica_Manager_Config.PORT_HOST.entrySet()){
 	    		if(entry.getKey() == Replica_Manager_Config.LOCAL_BROAD_CAST_LISTENING_PORT){
+	    			System.out.println("equal local broadcast port , skip");
 	    			continue;
 	    		}else{
-	    			DatagramPacket request = new DatagramPacket(message, message.length, host, entry.getKey());
-		    		socket.send(request);
+	    			new_request.setPort(entry.getKey());
+	    			socket.send(new_request);
 		    		byte[] buffer = new byte[100];
 			    	DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
 			    	try {
@@ -36,7 +37,6 @@ public class Front_End_Listener_Thread implements Runnable{
 					}
 	    		}
 	    	}
-	    	return true;
 	    }
 	    catch(Exception e){
 	    	System.out.println("Socket: " + e.getMessage()); 
@@ -46,7 +46,7 @@ public class Front_End_Listener_Thread implements Runnable{
 				socket.close();
 			}
 		}
-		return null;
+		return true;
 	}
 	
 	@Override
@@ -55,21 +55,24 @@ public class Front_End_Listener_Thread implements Runnable{
 		try{
 			socket = new DatagramSocket(Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT); // port: 4000
 			while(true){
+				System.out.println("start fe listener");
 				byte[] buffer = new byte[1000]; 
 				DatagramPacket request = new DatagramPacket(buffer, buffer.length);
 				socket.receive(request);
 				
 				String request_ID = new String(request.getData()).trim().split("\n")[0];
+				System.out.println("add request: "+ request_ID +" to hashtable");
 				Replica_Manager_Config.REQUEST_HASH_TABLE.put(request_ID, new String(request.getData()).trim().toString());
 				
 				String acknowledgement = "OK";
-				Boolean bcr = Broad_Cast_Request();
+				DatagramPacket reply = new DatagramPacket(acknowledgement.getBytes(),acknowledgement.getBytes().length, request.getAddress(), request.getPort());
+				Boolean bcr = Broad_Cast_Request(request);
 				if(bcr){
 					System.out.println("delete request: "+ request_ID +" from hashtable");
 					Replica_Manager_Config.REQUEST_HASH_TABLE.remove(request_ID);
 					
-					System.out.println("Send acknowledgement back to FE.");
-					socket.send(new DatagramPacket(acknowledgement.getBytes(),acknowledgement.getBytes().length, request.getAddress(), request.getPort()));
+					System.out.println("Send acknowledgement back to FE."+reply.getPort());
+					socket.send(reply);
 					System.out.println("Create new thread to handle the request from FE");
 					new UDP_CORBA_Connection_Thread(socket, request);
 				}	

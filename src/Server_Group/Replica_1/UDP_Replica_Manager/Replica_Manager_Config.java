@@ -15,6 +15,7 @@ public class Replica_Manager_Config {
 	static int LOCAL_FRONT_END_LISTENING_PORT = 4000;
 	// This port is only for broadcast.
 	static int LOCAL_BROAD_CAST_LISTENING_PORT = 4100;
+	static int LOCAL_BROAD_CAST_PORT = 4999;
 	static String LOCAL_MTL_SERVER_NAME = "host_1_mtl";
 	static String LOCAL_LVL_SERVER_NAME = "host_1_lvl";
 	static String LOCAL_DDO_SERVER_NAME = "host_1_ddo";

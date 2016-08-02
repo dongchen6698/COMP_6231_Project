@@ -30,7 +30,7 @@ public class Config_MTL {
 	static ArrayList<RecordInfo> RECORD_LIST = null;
 	static String HOST_NAME = "127.0.0.1";
 	static String ORB_INITIAL_PORT = "1050";
-	static String SERVER_NAME = "rp_1_mtl";
+	static String SERVER_NAME = "host_1_mtl";
 	static int LOCAL_LISTENING_PORT = 4001;
 	static Logger LOGGER = null;
 	static FileHandler FH = null;

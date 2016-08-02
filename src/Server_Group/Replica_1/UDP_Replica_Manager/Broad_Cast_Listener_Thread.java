@@ -18,6 +18,7 @@ public class Broad_Cast_Listener_Thread implements Runnable{
 				DatagramPacket request = new DatagramPacket(buffer, buffer.length);
 				socket.receive(request);
 				socket.send(new DatagramPacket("OK".getBytes(), "OK".getBytes().length, request.getAddress(), request.getPort()));
+				System.out.println("receive from leader, handle request, no reply back.");
 				new UDP_CORBA_Connection_Thread(socket, request);
 			}
 		}
