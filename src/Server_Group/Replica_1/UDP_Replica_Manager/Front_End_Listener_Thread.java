@@ -1,19 +1,10 @@
 package Server_Group.Replica_1.UDP_Replica_Manager;
 
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.MulticastSocket;
-import java.util.Properties;
-
-import org.omg.CORBA.ORB;
-import org.omg.CosNaming.NamingContextExt;
-import org.omg.CosNaming.NamingContextExtHelper;
-
-import Front_End.Front_End_Config;
-import Server_Group.Replica_1.DSMS_CORBA.DSMS;
-import Server_Group.Replica_1.DSMS_CORBA.DSMSHelper;
+import java.net.SocketTimeoutException;
+import java.util.Map.Entry;
 
 public class Front_End_Listener_Thread implements Runnable{
 
@@ -21,39 +12,41 @@ public class Front_End_Listener_Thread implements Runnable{
 		
 	}
 	
-	public static DSMS getServerReferrence(String n_managerID){
-		try {
-			//initial the port number of 1050;
-			Properties props = new Properties();
-	        props.put("org.omg.CORBA.ORBInitialPort", Replica_Manager_Config.ORB_INITIAL_PORT);
-	        
-			// create and initialize the ORB
-	        String[] ar = null;
-			ORB orb = ORB.init(ar, props);
-
-			// get the root naming context
-			org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
-			
-			// Use NamingContextExt instead of NamingContext. This is 
-			// part of the Interoperable naming Service.  
-			NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
-			
-			if(n_managerID.substring(0, 3).equalsIgnoreCase("mtl")){
-				return DSMSHelper.narrow(ncRef.resolve_str(Replica_Manager_Config.LOCAL_MTL_SERVER_NAME));
-			}else if(n_managerID.substring(0, 3).equalsIgnoreCase("lvl")){
-				return DSMSHelper.narrow(ncRef.resolve_str(Replica_Manager_Config.LOCAL_LVL_SERVER_NAME));
-			}else if(n_managerID.substring(0, 3).equalsIgnoreCase("ddo")){
-				return DSMSHelper.narrow(ncRef.resolve_str(Replica_Manager_Config.LOCAL_DDO_SERVER_NAME));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}	
-		return null;
-	}
-	
 	public static Boolean Broad_Cast_Request(){
-		
-		return true;
+		DatagramSocket socket = null;
+	    try {
+	    	socket = new DatagramSocket();
+	    	socket.setSoTimeout(5000);
+	    	byte[] message = (new String("getRequestIdNumber")).getBytes();
+	    	InetAddress host = InetAddress.getByName(Replica_Manager_Config.HOST_NAME);
+	    	for(Entry<Integer, String> entry: Replica_Manager_Config.PORT_HOST.entrySet()){
+	    		if(entry.getKey() == Replica_Manager_Config.LOCAL_BROAD_CAST_LISTENING_PORT){
+	    			continue;
+	    		}else{
+	    			DatagramPacket request = new DatagramPacket(message, message.length, host, entry.getKey());
+		    		socket.send(request);
+		    		byte[] buffer = new byte[100];
+			    	DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
+			    	try {
+						socket.receive(reply);
+						String result = new String(reply.getData()).trim();
+						System.out.println(entry.getValue()+" is: "+ result);
+					} catch (SocketTimeoutException e) {
+						System.out.println(entry.getValue() + " is crushed");
+					}
+	    		}
+	    	}
+	    	return true;
+	    }
+	    catch(Exception e){
+	    	System.out.println("Socket: " + e.getMessage()); 
+	    }
+		finally{
+			if(socket != null){
+				socket.close();
+			}
+		}
+		return null;
 	}
 	
 	@Override
@@ -65,13 +58,20 @@ public class Front_End_Listener_Thread implements Runnable{
 				byte[] buffer = new byte[1000]; 
 				DatagramPacket request = new DatagramPacket(buffer, buffer.length);
 				socket.receive(request);
+				
+				String request_ID = new String(request.getData()).trim().split("\n")[0];
+				Replica_Manager_Config.REQUEST_HASH_TABLE.put(request_ID, new String(request.getData()).trim().toString());
+				
 				String acknowledgement = "OK";
 				Boolean bcr = Broad_Cast_Request();
 				if(bcr){
+					System.out.println("delete request: "+ request_ID +" from hashtable");
+					Replica_Manager_Config.REQUEST_HASH_TABLE.remove(request_ID);
+					
 					System.out.println("Send acknowledgement back to FE.");
 					socket.send(new DatagramPacket(acknowledgement.getBytes(),acknowledgement.getBytes().length, request.getAddress(), request.getPort()));
 					System.out.println("Create new thread to handle the request from FE");
-					new Connection(socket, request);
+					new UDP_CORBA_Connection_Thread(socket, request);
 				}	
 			}
 		}
@@ -80,78 +80,6 @@ public class Front_End_Listener_Thread implements Runnable{
 		}
 		finally{
 			if(socket != null) socket.close();
-		}
-	}
-	
-	/**
-	 * New thread to handle the newly request
-	 * @author AlexChen
-	 *
-	 */
-	static class Connection extends Thread{
-		DatagramSocket socket = null;
-		DatagramPacket request = null;
-		String result = null;
-		public Connection(DatagramSocket n_socket, DatagramPacket n_request) {
-			this.socket = n_socket;
-			this.request = n_request;
-			
-			String request_ID = new String(request.getData()).trim().split("\n")[0];
-			String function_ID = new String(request.getData()).trim().split("\n")[1];
-			String manager_ID = new String(request.getData()).trim().split("\n")[2];
-			
-			Replica_Manager_Config.DSMS_CORBA_IMPL = getServerReferrence(manager_ID);
-			
-			switch (function_ID) {
-			case "001":
-				String firstName_1 = new String(request.getData()).trim().split("\n")[3];
-				String lastName_1 = new String(request.getData()).trim().split("\n")[4];
-				String address_1 = new String(request.getData()).trim().split("\n")[5];
-				String phone_1 = new String(request.getData()).trim().split("\n")[6];
-				String specialization_1 = new String(request.getData()).trim().split("\n")[7];
-				String location_1 = new String(request.getData()).trim().split("\n")[8];
-				
-				result = Replica_Manager_Config.DSMS_CORBA_IMPL.createDRecord(manager_ID, firstName_1, lastName_1, address_1, phone_1, specialization_1, location_1);
-				break;
-			case "002":
-				String firstName_2 = new String(request.getData()).trim().split("\n")[3];
-				String lastName_2 = new String(request.getData()).trim().split("\n")[4];
-				String designation_2 = new String(request.getData()).trim().split("\n")[5];
-				String status_2 = new String(request.getData()).trim().split("\n")[6];
-				String statusDate_2 = new String(request.getData()).trim().split("\n")[7];
-				
-				result = Replica_Manager_Config.DSMS_CORBA_IMPL.createNRecord(manager_ID, firstName_2, lastName_2, designation_2, status_2, statusDate_2);
-				break;
-			case "003":
-				String recordType_3 = new String(request.getData()).trim().split("\n")[3];
-				
-				result = Replica_Manager_Config.DSMS_CORBA_IMPL.getRecordCounts(manager_ID, recordType_3);
-				break;
-			case "004":
-				String recordID_4 = new String(request.getData()).trim().split("\n")[3];
-				String fieldName_4 = new String(request.getData()).trim().split("\n")[4];
-				String newValue_4 = new String(request.getData()).trim().split("\n")[5];
-				
-				result = Replica_Manager_Config.DSMS_CORBA_IMPL.editRecord(manager_ID, recordID_4, fieldName_4, newValue_4);
-				break;
-			case "005":
-				String recordID_5 = new String(request.getData()).trim().split("\n")[3];
-				String remoteClinicServerName_5 = new String(request.getData()).trim().split("\n")[4];
-				
-				result = Replica_Manager_Config.DSMS_CORBA_IMPL.transferRecord(manager_ID, recordID_5, remoteClinicServerName_5);
-				break;
-			}
-			this.start();
-		}
-		
-		@Override
-		public void run() {
-			try {
-				DatagramPacket reply = new DatagramPacket(result.getBytes(),result.getBytes().length, request.getAddress(), request.getPort());
-				socket.send(reply);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 }

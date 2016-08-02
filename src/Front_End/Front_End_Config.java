@@ -28,5 +28,5 @@ public class Front_End_Config {
 	//					  firstName
 	//					  ....
 	static Map<String, String> REQUEST_HASH_TABLE = new HashMap<String, String>();
-	
+
 }
