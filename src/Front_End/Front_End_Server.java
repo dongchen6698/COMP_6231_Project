@@ -1,5 +1,7 @@
 package Front_End;
 
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.util.Properties;
 
 import org.omg.CORBA.ORB;
@@ -11,13 +13,16 @@ import org.omg.PortableServer.POAHelper;
 
 import Front_End.FRONT_END_CORBA.Front_End;
 import Front_End.FRONT_END_CORBA.Front_EndHelper;
+import Server_Group.Replica_1.UDP_Replica_Manager.Replica_Manager_Config;
+import Server_Group.Replica_1.UDP_Replica_Manager.UDP_CORBA_Connection_Thread;
 
 
 public class Front_End_Server {
 	public static void main(String[] args) {
+		System.out.println("Initial the front end corba part");
 		init_Front_End_CORBA(args);
-		//System.out.println("open a listener for update the config file of leader info.");
-		//open_UDP_Listener_For_Update_Leader_info();
+		System.out.println("open a listener for update the config file of leader info.");
+		open_UDP_Listener_For_Update_Leader_info();
 	}
 	
 
@@ -70,7 +75,27 @@ public class Front_End_Server {
 		Thread update = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				
+				DatagramSocket socket = null;
+				try{
+					socket = new DatagramSocket(Front_End_Config.LOCAL_LISTENING_PORT); // port: 3500
+					while(true){
+						System.out.println("start update primary leader listener");
+						byte[] buffer = new byte[1000]; 
+						DatagramPacket request = new DatagramPacket(buffer, buffer.length);
+						socket.receive(request);
+						int leader_port = Integer.parseInt(new String(request.getData()).trim());
+						Front_End_Config.PRIMARY_SERVER_PORT = leader_port;
+						String acknowledgement = "OK";
+						DatagramPacket reply = new DatagramPacket(acknowledgement.getBytes(),acknowledgement.getBytes().length, request.getAddress(), request.getPort());
+						socket.send(reply);
+						}	
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+				finally{
+					if(socket != null) socket.close();
+				}
 			}
 		});
 		update.start();

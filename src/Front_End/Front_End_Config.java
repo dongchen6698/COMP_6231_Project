@@ -14,12 +14,12 @@ public class Front_End_Config {
 	static String REQUESTID_GENERATOR_IP = "127.0.0.1";
 	static int REQUESTID_GENERATOR_PORT = 3000;
 	
-
+	
 	static int LOCAL_LISTENING_PORT = 3500;
 	
 	// Leader Host IP and Port
 	static String PRIMARY_SERVER_IP = "127.0.0.1";
-	static int PRIMARY_SERVER_PORT = 5000;
+	static int PRIMARY_SERVER_PORT = 4000;
 	
 	// Front end hash table for storing the request information in case of message lost.
 	// First String is requestID, second String is request message for sending to leader host.like below

@@ -427,3 +427,23 @@ Phone: adsf
 specialization: adsf
 location: mtl
 
+Aug 02, 2016 5:26:08 PM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: asdf
+Last Name: asdf
+Address: asdf
+Phone: asdf
+specialization: asdf
+location: mtl
+
+Aug 02, 2016 5:29:22 PM Server_Group.Replica_1.Server_MTL.Clinic_MTL_Impl createDRecord
+INFO: Manager: mtl10000 Creat Doctor Record: 
+RecordID: DR10000
+First Name: asdf
+Last Name: asdf
+Address: asdf
+Phone: asdf
+specialization: asdf
+location: mtl
+

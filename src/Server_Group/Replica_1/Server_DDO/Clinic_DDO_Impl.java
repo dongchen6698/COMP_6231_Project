@@ -46,10 +46,10 @@ public class Clinic_DDO_Impl extends DSMSPOA{
 		recordID = "DR" + sendMessageToOtherServer(Server_DDO_Config.SERVER_PORT_RECORDID_ASSIGN, "getRecordIdNumber", "");
 		doc_recorde_with_recordID = new RecordInfo(recordID, doc_recorde);
 		
-		synchronized (this) {
+		synchronized (Server_DDO_Config.RECORD_LIST) {
 			Server_DDO_Config.RECORD_LIST.add(doc_recorde_with_recordID);
-			Server_DDO_Config.HASH_TABLE.put(capital_lastname, Server_DDO_Config.RECORD_LIST);
 		}
+		Server_DDO_Config.HASH_TABLE.put(capital_lastname, Server_DDO_Config.RECORD_LIST);
 		System.out.println(Server_DDO_Config.LOGGER);
 		Server_DDO_Config.LOGGER.info("Manager: "+ managerId + " Creat Doctor Record: "+ "\n" +doc_recorde_with_recordID.toString());
 		return "Doctor Record Buid Succeed !" + "\n" +doc_recorde_with_recordID.toString();
@@ -80,10 +80,10 @@ public class Clinic_DDO_Impl extends DSMSPOA{
 		recordID = "NR" + sendMessageToOtherServer(Server_DDO_Config.SERVER_PORT_RECORDID_ASSIGN, "getRecordIdNumber", "");
 		nur_recorde_with_recordID = new RecordInfo(recordID, nur_recorde);
 		
-		synchronized (this) {
+		synchronized (Server_DDO_Config.RECORD_LIST) {
 			Server_DDO_Config.RECORD_LIST.add(nur_recorde_with_recordID);
-			Server_DDO_Config.HASH_TABLE.put(capital_lastname, Server_DDO_Config.RECORD_LIST);
 		}
+		Server_DDO_Config.HASH_TABLE.put(capital_lastname, Server_DDO_Config.RECORD_LIST);
 		Server_DDO_Config.LOGGER.info("Manager: "+ managerId + " Creat Nurse Record: "+ "\n" +nur_recorde_with_recordID.toString());
 		return "Nurse Record Buid Succeed !" + "\n" +nur_recorde_with_recordID.toString();
 	}
@@ -99,7 +99,7 @@ public class Clinic_DDO_Impl extends DSMSPOA{
 	}
 
 	@Override
-	public String editRecord(String managerId, String recordID, String fieldName, String newValue) {
+	public synchronized String editRecord(String managerId, String recordID, String fieldName, String newValue) {
 		for(Map.Entry<Character, ArrayList<RecordInfo>> entry:Server_DDO_Config.HASH_TABLE.entrySet()){
 			for(RecordInfo record:entry.getValue()){
 				if(recordID.equalsIgnoreCase(record.getRecordID())){
@@ -149,7 +149,7 @@ public class Clinic_DDO_Impl extends DSMSPOA{
 	}
 
 	@Override
-	public String transferRecord(String managerId, String recordID, String remoteClinicServerName) {
+	public synchronized String transferRecord(String managerId, String recordID, String remoteClinicServerName) {
 		if(!checkRecordIDExistOrNot(recordID)){
 			return "RecordID is not right. Please input again.\n";
 		}
