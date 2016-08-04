@@ -18,6 +18,7 @@ import Server_Group.Replica_1.Record_Type.RecordInfo;
 public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 
 	private ORB orb;
+	private int recordID = 10000;
 	
 	/**
 	 * Set ORB function
@@ -33,9 +34,6 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 		if(!checkLocation(location)){
 			return "Location is not right. Please input (mtl,lvl or ddo).\n";
 		}
-		String recordID = null;
-		RecordInfo doc_recorde_with_recordID = null;
-		
 		Character capital_lastname = lastName.charAt(0);
 		if(Server_MTL_Config.HASH_TABLE.containsKey(capital_lastname)){
 			Server_MTL_Config.RECORD_LIST = Server_MTL_Config.HASH_TABLE.get(capital_lastname);
@@ -43,8 +41,8 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 			Server_MTL_Config.RECORD_LIST = new ArrayList<RecordInfo>();
 		}
 		DoctorRecord doc_recorde = new DoctorRecord(firstName, lastName, address, phone, specialization, location);
-		recordID = "DR" + sendMessageToOtherServer(Server_MTL_Config.SERVER_PORT_RECORDID_ASSIGN, "getRecordIdNumber", "");
-		doc_recorde_with_recordID = new RecordInfo(recordID, doc_recorde);
+		String recordID = "DR" + Integer.toString(Server_MTL_Config.RECORD_ID++);
+		RecordInfo doc_recorde_with_recordID = new RecordInfo(recordID, doc_recorde);
 		
 		synchronized (this) {
 			Server_MTL_Config.RECORD_LIST.add(doc_recorde_with_recordID);
@@ -67,9 +65,6 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 		if(!checkStatusDate(statusDate)){
 			return "Status Date is not right. Please input the right format of date (yyyy/mm/dd).";
 		}
-		String recordID = null;
-		RecordInfo nur_recorde_with_recordID = null;
-		 
 		Character capital_lastname = lastName.charAt(0);
 		if(Server_MTL_Config.HASH_TABLE.containsKey(capital_lastname)){
 			Server_MTL_Config.RECORD_LIST = Server_MTL_Config.HASH_TABLE.get(capital_lastname);
@@ -77,8 +72,8 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 			Server_MTL_Config.RECORD_LIST = new ArrayList<RecordInfo>();
 		}
 		NurseRecord nur_recorde = new NurseRecord(firstName, lastName, designation, status, statusDate);
-		recordID = "NR" + sendMessageToOtherServer(Server_MTL_Config.SERVER_PORT_RECORDID_ASSIGN, "getRecordIdNumber", "");
-		nur_recorde_with_recordID = new RecordInfo(recordID, nur_recorde);
+		String recordID = "NR" + Integer.toString(Server_MTL_Config.RECORD_ID++);
+		RecordInfo nur_recorde_with_recordID = new RecordInfo(recordID, nur_recorde);
 		
 		synchronized (this) {
 			Server_MTL_Config.RECORD_LIST.add(nur_recorde_with_recordID);
@@ -170,7 +165,7 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 	 * @param recordID
 	 * @return
 	 */
-	public static Boolean checkRecordIDExistOrNot(String recordID){
+	public Boolean checkRecordIDExistOrNot(String recordID){
 		for(Map.Entry<Character, ArrayList<RecordInfo>> entry:Server_MTL_Config.HASH_TABLE.entrySet()){
 			for(RecordInfo record:entry.getValue()){
 				if(recordID.equalsIgnoreCase(record.getRecordID())){
@@ -186,7 +181,7 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 	 * @param location
 	 * @return
 	 */
-	public static Boolean checkLocation(String location){
+	public Boolean checkLocation(String location){
 		for(Server_MTL_Config.D_LOCATION d_location: Server_MTL_Config.D_LOCATION.values()){
 			if(location.equals(d_location.toString())){
 				return true;
@@ -200,7 +195,7 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 	 * @param designation
 	 * @return
 	 */
-	public static Boolean checkDesignation(String designation){
+	public Boolean checkDesignation(String designation){
 		for(Server_MTL_Config.N_DESIGNATION n_designation: Server_MTL_Config.N_DESIGNATION.values()){
 			if(designation.equals(n_designation.toString())){
 				return true;
@@ -214,7 +209,7 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 	 * @param status
 	 * @return
 	 */
-	public static Boolean checkStatus(String status){
+	public Boolean checkStatus(String status){
 		for(Server_MTL_Config.N_STATUS n_status: Server_MTL_Config.N_STATUS.values()){
 			if(status.equals(n_status.toString())){
 				return true;
@@ -228,7 +223,7 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 	 * @param date
 	 * @return
 	 */
-	public static Boolean checkStatusDate(String date){
+	public Boolean checkStatusDate(String date){
 		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			format.setLenient(false);
@@ -246,7 +241,7 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 	 * @return
 	 * 
 	 */
-	public static String sendMessageToOtherServer(int serverPort, String content, String requestCode){
+	public String sendMessageToOtherServer(int serverPort, String content, String requestCode){
 		DatagramSocket socket = null;
 		String hostname = Server_MTL_Config.HOST_NAME;
 		String requestcode = requestCode;
@@ -285,7 +280,7 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 	 * @param remoteClinicServerName
 	 * @return
 	 */
-	public static String transferRecordToOtherServer(String recordID, String remoteClinicServerName){
+	public String transferRecordToOtherServer(String recordID, String remoteClinicServerName){
 		int serverPort = 0;
 		
 		if(remoteClinicServerName.equalsIgnoreCase("mtl")){
@@ -315,7 +310,7 @@ public class Clinic_MTL_Impl extends Server_Group.Replica_1.DSMS_CORBA.DSMSPOA{
 	 * @param recordType
 	 * @return
 	 */
-	public static synchronized String getLocalHashSize(String recordType){
+	public synchronized String getLocalHashSize(String recordType){
 		int dr_num = 0;
 		int nr_num = 0;
 		

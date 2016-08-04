@@ -18,7 +18,7 @@ public class Front_End_Listener_Thread implements Runnable{
 	    try {
 	    	socket = new DatagramSocket();
 	    	socket.setSoTimeout(2000);
-	    	for(Entry<Integer, String> entry: Replica_Manager_Config.PORT_HOST.entrySet()){
+	    	for(Entry<Integer, String> entry: Replica_Manager_Config.BROADCAST_PORT.entrySet()){
 	    		if(entry.getKey() == Replica_Manager_Config.LOCAL_BROAD_CAST_LISTENING_PORT){
 	    			System.out.println("equal local broadcast port , skip");
 	    			continue;

@@ -120,7 +120,7 @@ public class Clinic_DDO_UDP_Listener implements Runnable{
 			}else{
 				Server_DDO_Config.RECORD_LIST = new ArrayList<RecordInfo>();
 			}
-			Server_DDO_Config.RECORD_LIST.add(new RecordInfo(record[0].split(": ")[1], new DoctorRecord(record[1].split(": ")[1], record[2].split(": ")[1], record[3].split(": ")[1], record[4].split(": ")[1], record[5].split(": ")[1], record[6].split(": ")[1])));
+			Server_DDO_Config.RECORD_LIST.add(new RecordInfo("DR"+Integer.toString(Server_DDO_Config.RECORD_ID++), new DoctorRecord(record[1].split(": ")[1], record[2].split(": ")[1], record[3].split(": ")[1], record[4].split(": ")[1], record[5].split(": ")[1], record[6].split(": ")[1])));
 			Server_DDO_Config.HASH_TABLE.put(record[2].split(": ")[1].charAt(0), Server_DDO_Config.RECORD_LIST);
 			return "Transfer doctor record success.";
 		}else if(record[0].contains("NR")){
@@ -129,7 +129,7 @@ public class Clinic_DDO_UDP_Listener implements Runnable{
 			}else{
 				Server_DDO_Config.RECORD_LIST = new ArrayList<RecordInfo>();
 			}
-			Server_DDO_Config.RECORD_LIST.add(new RecordInfo(record[0].split(": ")[1], new NurseRecord(record[1].split(": ")[1], record[2].split(": ")[1], record[3].split(": ")[1], record[4].split(": ")[1], record[5].split(": ")[1])));
+			Server_DDO_Config.RECORD_LIST.add(new RecordInfo("NR"+Integer.toString(Server_DDO_Config.RECORD_ID++), new NurseRecord(record[1].split(": ")[1], record[2].split(": ")[1], record[3].split(": ")[1], record[4].split(": ")[1], record[5].split(": ")[1])));
 			Server_DDO_Config.HASH_TABLE.put(record[2].split(": ")[1].charAt(0), Server_DDO_Config.RECORD_LIST);
 			return "Transfer nurse record success.";
 		}

@@ -29,6 +29,7 @@ public class Server_DDO_Config {
 			put('H', new ArrayList<RecordInfo>(Arrays.asList(new RecordInfo("NR00006", new NurseRecord("twelve", "Hu", "junior", "active", "2016/09/12")))));
 		}
 	};
+	static int RECORD_ID = 10000;
 	static ArrayList<RecordInfo> RECORD_LIST = null;
 	static String HOST_NAME = "127.0.0.1";
 	static String ORB_INITIAL_PORT = "1050";

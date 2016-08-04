@@ -27,6 +27,7 @@ public class Server_MTL_Config {
 			put('Z', new ArrayList<RecordInfo>(Arrays.asList(new RecordInfo("DR00002", new DoctorRecord("two", "Zhang", "Montreal", "5142345678", "Surgery", "mtl")))));
 		}
 	};
+	static int RECORD_ID = 10000;
 	static ArrayList<RecordInfo> RECORD_LIST = null;
 	static String HOST_NAME = "127.0.0.1";
 	static String ORB_INITIAL_PORT = "1050";

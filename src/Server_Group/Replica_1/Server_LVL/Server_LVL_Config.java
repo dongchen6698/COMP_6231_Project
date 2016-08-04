@@ -27,6 +27,7 @@ public class Server_LVL_Config {
 			put('H', new ArrayList<RecordInfo>(Arrays.asList(new RecordInfo("NR00004", new NurseRecord("eight", "Hu", "junior", "active", "2016/09/12")))));
 		}
 	};
+	static int RECORD_ID = 10000;
 	static ArrayList<RecordInfo> RECORD_LIST = null;
 	static String HOST_NAME = "127.0.0.1";
 	static String ORB_INITIAL_PORT = "1050";

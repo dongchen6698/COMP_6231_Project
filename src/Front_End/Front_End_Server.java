@@ -19,10 +19,10 @@ import Server_Group.Replica_1.UDP_Replica_Manager.UDP_CORBA_Connection_Thread;
 
 public class Front_End_Server {
 	public static void main(String[] args) {
-		System.out.println("Initial the front end corba part");
-		init_Front_End_CORBA(args);
 		System.out.println("open a listener for update the config file of leader info.");
 		open_UDP_Listener_For_Update_Leader_info();
+		System.out.println("Initial the front end corba part");
+		init_Front_End_CORBA(args);
 	}
 	
 
@@ -83,12 +83,20 @@ public class Front_End_Server {
 						byte[] buffer = new byte[1000]; 
 						DatagramPacket request = new DatagramPacket(buffer, buffer.length);
 						socket.receive(request);
-						int leader_port = Integer.parseInt(new String(request.getData()).trim());
-						Front_End_Config.PRIMARY_SERVER_PORT = leader_port;
-						String acknowledgement = "OK";
-						DatagramPacket reply = new DatagramPacket(acknowledgement.getBytes(),acknowledgement.getBytes().length, request.getAddress(), request.getPort());
-						socket.send(reply);
-						}	
+						String content = new String(request.getData()).trim();
+						if(content.equals("who is leader?")){
+							String resend_leader_port = Integer.toString(Front_End_Config.PRIMARY_SERVER_PORT);
+							DatagramPacket reply_leader = new DatagramPacket(resend_leader_port.getBytes(),resend_leader_port.getBytes().length, request.getAddress(), request.getPort());
+							socket.send(reply_leader);
+						}else{
+							int leader_port = Integer.parseInt(new String(request.getData()).trim());
+							Front_End_Config.PRIMARY_SERVER_PORT = leader_port;
+							String acknowledgement = "OK";
+							DatagramPacket update_leader = new DatagramPacket(acknowledgement.getBytes(),acknowledgement.getBytes().length, request.getAddress(), request.getPort());
+							System.out.println("new leader is " + leader_port);
+							socket.send(update_leader);
+						}
+					}	
 				}
 				catch(Exception e){
 					e.printStackTrace();
@@ -98,6 +106,7 @@ public class Front_End_Server {
 				}
 			}
 		});
+		System.out.println("start listening for update");
 		update.start();
 	}
 }

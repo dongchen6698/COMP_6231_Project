@@ -1,6 +1,5 @@
 import Front_End.Front_End_Server;
 import Request_ID_Dispatcher.Request_ID_Dispatcher;
-import Server_Group.Replica_1.Record_ID_Dispatcher.Record_ID_Dispatcher;
 import Server_Group.Replica_1.Server_DDO.Start_DDO_Server;
 import Server_Group.Replica_1.Server_LVL.Start_LVL_Server;
 import Server_Group.Replica_1.Server_MTL.Start_MTL_Server;
@@ -20,12 +19,6 @@ public class start_run {
 		public void run() {
 			Request_ID_Dispatcher.main(null);
 		}
-	};
-	
-	static Thread reocrd_id_dispatcher = new Thread(){
-		public void run() {
-			Record_ID_Dispatcher.main(null);
-		};
 	};
 	
 	static Thread start_host_1_mtl = new Thread(){
@@ -57,8 +50,6 @@ public class start_run {
 			front_end_server.start();
 			Thread.sleep(1000);
 			request_id_dispatcher.start();
-			Thread.sleep(1000);
-			reocrd_id_dispatcher.start();
 			Thread.sleep(1000);
 			start_host_1_mtl.start();
 			Thread.sleep(1000);
