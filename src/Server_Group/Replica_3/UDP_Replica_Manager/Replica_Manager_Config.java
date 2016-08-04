@@ -15,9 +15,9 @@ public class Replica_Manager_Config {
 	static int LOCAL_FRONT_END_LISTENING_PORT = 6000;
 	// This port is only for broadcast.
 	static int LOCAL_BROAD_CAST_LISTENING_PORT = 6100;
-	static String LOCAL_MTL_SERVER_NAME = "XXXX";
-	static String LOCAL_LVL_SERVER_NAME = "XXXX";
-	static String LOCAL_DDO_SERVER_NAME = "XXXX";
+	static String LOCAL_MTL_SERVER_NAME = "host_3";
+	static String LOCAL_LVL_SERVER_NAME = "host_3";
+	static String LOCAL_DDO_SERVER_NAME = "host_3";
 	
 	static HashMap<Integer, String> PORT_HOST = new HashMap<Integer, String>(){{
 		put(4100, "Host_1");

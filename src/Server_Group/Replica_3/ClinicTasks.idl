@@ -1,0 +1,36 @@
+module com{
+
+struct SuperRecord {
+
+string recordID;
+string managerID;
+string firstName;
+string lastName;
+string recType; // used to differentiate doctor and Nurse
+
+long designation;
+long status;
+string statusDate;
+long category;
+
+string address;
+string phoneNumber;
+long specialization;
+long location;
+
+};
+
+interface ClinicTasks{
+
+string createRecord(in string managerId, in SuperRecord superRecord);
+
+string getRecordCounts(in string managerId, in string recordType, in long udpIntrSrvsSenderPrt, in long udpIntrSrvsReceiverPrt);
+
+string editRecord(in string managerId, in string recordId, in string fieldName, in string newValue);
+
+string transferRecord(in string managerId, in string recordId, in string remoteClinicServerName);
+
+oneway void shutdown();
+
+};
+};

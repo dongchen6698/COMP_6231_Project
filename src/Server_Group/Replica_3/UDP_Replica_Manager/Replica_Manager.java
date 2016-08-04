@@ -6,5 +6,7 @@ public class Replica_Manager {
 		new Thread(new Front_End_Listener_Thread()).start();
 		System.out.println("Broad Cast Listener read and waiting");
 		new Thread(new Broad_Cast_Listener_Thread()).start();
+		System.out.println("Failure detection thresad");
+
 	}
 }
