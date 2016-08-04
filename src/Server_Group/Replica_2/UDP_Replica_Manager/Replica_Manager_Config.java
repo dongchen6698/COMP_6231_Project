@@ -21,23 +21,10 @@ public class Replica_Manager_Config {
 	static String LOCAL_MTL_SERVER_NAME = "MTL";
 	static String LOCAL_LVL_SERVER_NAME = "LVL";
 	static String LOCAL_DDO_SERVER_NAME = "DDO";
-	
-	static HashMap<Integer, String> MAIN_LISTENING_PORT = new HashMap<Integer, String>(){{
-		put(4000, "Host_1");
-		put(5000, "Host_2");
-		put(6000, "Host_3");
-	}};
-	
+
 	static HashMap<Integer, String> BROADCAST_PORT = new HashMap<Integer, String>(){{
 		put(4100, "Host_1");
 		put(5100, "Host_2");
 		put(6100, "Host_3");
 	}};
-	
-	static HashMap<Integer, String> FAILURE_DETECTION_PORT = new HashMap<Integer, String>(){{
-		put(4500, "Host_1");
-		put(5500, "Host_2");
-		put(6500, "Host_3");
-	}};
-	
 }

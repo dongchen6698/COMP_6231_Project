@@ -80,7 +80,7 @@ public class UDP_CORBA_Connection_Thread extends Thread{
 		}
 	}
 	
-	public static DSMS getServerReferrence(String n_managerID){
+	public DSMS getServerReferrence(String n_managerID){
 		try {
 			//initial the port number of 1050;
 			Properties props = new Properties();

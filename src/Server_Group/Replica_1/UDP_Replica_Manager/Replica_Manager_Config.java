@@ -16,27 +16,14 @@ public class Replica_Manager_Config {
 	static int LOCAL_FRONT_END_LISTENING_PORT = 4000;
 	// This port is only for broadcast.
 	static int LOCAL_BROAD_CAST_LISTENING_PORT = 4100;
-	// This port is for failure detection.
-	static int LOCAL_FAILURE_DETECTION_PORT = 4500;
 	static String LOCAL_MTL_SERVER_NAME = "host_1_mtl";
 	static String LOCAL_LVL_SERVER_NAME = "host_1_lvl";
 	static String LOCAL_DDO_SERVER_NAME = "host_1_ddo";
 	
-	static HashMap<Integer, String> MAIN_LISTENING_PORT = new HashMap<Integer, String>(){{
-		put(4000, "Host_1");
-		put(5000, "Host_2");
-		put(6000, "Host_3");
-	}};
 	
 	static HashMap<Integer, String> BROADCAST_PORT = new HashMap<Integer, String>(){{
 		put(4100, "Host_1");
 		put(5100, "Host_2");
 		put(6100, "Host_3");
 	}};
-	
-	static HashMap<Integer, String> FAILURE_DETECTION_PORT = new HashMap<Integer, String>(){{
-		put(4500, "Host_1");
-		put(5500, "Host_2");
-		put(6500, "Host_3");
-	}};	
 }
