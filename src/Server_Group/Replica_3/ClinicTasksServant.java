@@ -1,9 +1,9 @@
 package Server_Group.Replica_3;
 
-import com.ClinicTasks;
-import com.ClinicTasksHelper;
-import com.ClinicTasksPOA;
-import com.SuperRecord;
+import Server_Group.Replica_3.com.ClinicTasks;
+import Server_Group.Replica_3.com.ClinicTasksHelper;
+import Server_Group.Replica_3.com.ClinicTasksPOA;
+import Server_Group.Replica_3.com.SuperRecord;
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.Object;
 import org.omg.CosNaming.NameComponent;
@@ -578,7 +578,7 @@ public class ClinicTasksServant extends ClinicTasksPOA implements Runnable {
 
     private static long idCounter = 0;
 
-    public static synchronized String createID() {
+    public synchronized String createID() {
         return String.format("%05d", ++idCounter);
     }
 

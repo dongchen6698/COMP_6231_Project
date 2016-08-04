@@ -1,8 +1,8 @@
 package Server_Group.Replica_3.UDP_Replica_Manager;
 
-import com.ClinicTasks;
-import com.ClinicTasksHelper;
-import com.SuperRecord;
+import Server_Group.Replica_3.com.ClinicTasks;
+import Server_Group.Replica_3.com.ClinicTasksHelper;
+import Server_Group.Replica_3.com.SuperRecord;
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.ORBPackage.InvalidName;
 import org.omg.CORBA.Object;
