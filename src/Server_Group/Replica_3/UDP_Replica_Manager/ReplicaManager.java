@@ -17,13 +17,15 @@ import java.net.*;
 /**
  * Created by Mahdiye on 8/1/2016.
  */
-public class ReplicaManager {
+public class ReplicaManager{
 
     String[] args = null;
     String result = null;
 
     public ReplicaManager(String[] args) {
         this.args = args;
+//        FailureDetection failureDetector = new FailureDetection();
+//        failureDetector.replyToPing(Server_Group.Replica_2.UDP_Replica_Manager.Replica_Manager_Config.LOCAL_BROAD_CAST_LISTENING_PORT);
         open_UDP_Listener();
     }
 
@@ -34,7 +36,7 @@ public class ReplicaManager {
     public void open_UDP_Listener() {
         DatagramSocket socket = null;
         try {
-            socket = new DatagramSocket(Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT);
+            socket = new DatagramSocket(Replica_Manager_Config.LOCAL_BROAD_CAST_LISTENING_PORT);
             while (true) {
                 byte[] buffer = new byte[1000];
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
