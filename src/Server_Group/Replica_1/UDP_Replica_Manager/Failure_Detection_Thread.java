@@ -44,7 +44,9 @@ public class Failure_Detection_Thread implements Runnable{
 										if(main.getValue().equals(entry.getValue())){
 											System.out.println(leader_port+" leader is crushed");
 											Integer new_port = Bully_Algorithm(leader_port);
-											send_New_Leader_To_FE(new_port);
+											if(new_port.equals(Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT)){
+												send_New_Leader_To_FE(new_port);
+											}
 										}
 									}
 								}
