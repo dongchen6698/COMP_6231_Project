@@ -33,7 +33,7 @@ public class Front_End_Listener_Thread implements Runnable{
 						String result = new String(reply.getData()).trim();
 						System.out.println(entry.getValue()+" is: "+ result);
 					} catch (SocketTimeoutException e) {
-						System.out.println(entry.getValue() + " is crushed");
+						System.out.println(entry.getValue() + " is crashed");
 					}
 	    		}
 	    	}
@@ -55,13 +55,13 @@ public class Front_End_Listener_Thread implements Runnable{
 		try{
 			socket = new DatagramSocket(Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT); // port: 4000
 			while(true){
-				System.out.println("start fe listener");
+				System.out.println("start OF FE listener");
 				byte[] buffer = new byte[1000]; 
 				DatagramPacket request = new DatagramPacket(buffer, buffer.length);
 				socket.receive(request);
 				
 				String request_ID = new String(request.getData()).trim().split("\n")[0];
-				System.out.println("add request: "+ request_ID +" to hashtable");
+				System.out.println("add request: "+ request_ID +" to hash table");
 				Replica_Manager_Config.REQUEST_HASH_TABLE.put(request_ID, new String(request.getData()).trim().toString());
 				
 				String acknowledgement = "OK";
