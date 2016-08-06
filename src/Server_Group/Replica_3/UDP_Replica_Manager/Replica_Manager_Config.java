@@ -1,5 +1,6 @@
 package Server_Group.Replica_3.UDP_Replica_Manager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,9 +28,10 @@ public class Replica_Manager_Config {
 	}};
 
 	final static int n = 2;
-	final static int rep[] = {1, 2, 3};
+	final static int REPLICA[] = {1, 2, 3};
 	final static int priority[] = {4000, 5000, 6000};
-	final static int timeout = 20000;
-	final static int interval = 50000;
+	final static int TIMEOUT = 120000;
+	final static int INTERVAL = 60000;
+	final static int INITIALDELAY = 150000;
 
 }

@@ -1,4 +1,4 @@
-package Server_Group.Replica_3.UDP_Replica_Manager;
+package Server_Group.Replica_1.UDP_Replica_Manager;
 
 import Front_End.Front_End_Config;
 
@@ -10,11 +10,13 @@ import java.util.TimerTask;
 import java.util.logging.Logger;
 
 /**
- * Created by Mahdiye on 8/3/2016.
+ * Created by Mahdiye on 8/5/2016.
  */
 public class FailureDetection extends TimerTask {
 
+
     public static ArrayList<String> liveHostsByName = new ArrayList<String>();
+
 
     Timer timer = new Timer();
 
@@ -26,25 +28,13 @@ public class FailureDetection extends TimerTask {
 
         timer.scheduleAtFixedRate(this, Replica_Manager_Config.INITIALDELAY, Replica_Manager_Config.INTERVAL);
 
-        int newLeaderIndex = elect(Replica_Manager_Config.REPLICA[2]);
-        String newLeaderPort = "NEWLEADER".concat(String.valueOf(Replica_Manager_Config.priority[newLeaderIndex - 1]));
+        int newLeaderIndex = elect(Replica_Manager_Config.REPLICA[0]);
+        String newLeaderPort = "NEWLEADER".concat(String.valueOf(Replica_Manager_Config.priority[newLeaderIndex-1]));
         doPing(Replica_Manager_Config.HOST_NAME, Front_End_Config.LOCAL_LISTENING_PORT, newLeaderPort);
-
     }
-
-    private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
 
     @Override
     public void run() {
-
-        System.out.println(System.currentTimeMillis() + " : Begin to PING the replica with port : " + Server_Group.Replica_1.UDP_Replica_Manager.Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT);
-        logger.info(System.currentTimeMillis() + " : Begin to PING the replica with port : " + Server_Group.Replica_1.UDP_Replica_Manager.Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT);
-
-        doPing(Replica_Manager_Config.HOST_NAME, Server_Group.Replica_1.UDP_Replica_Manager.Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT, "0000" + "\n" + "006" + "\n" + "0000000");
-
-        System.out.println("Ping to replica with port : " + Server_Group.Replica_1.UDP_Replica_Manager.Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT + " : is done!");
-        logger.info("Ping to replica with port : " + Server_Group.Replica_1.UDP_Replica_Manager.Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT + " : is done!");
 
         System.out.println(System.currentTimeMillis() + " : Begin to PING the replica with port : " + Server_Group.Replica_2.UDP_Replica_Manager.Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT);
         logger.info(System.currentTimeMillis() + " : Begin to PING the replica with port : " + Server_Group.Replica_2.UDP_Replica_Manager.Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT);
@@ -54,8 +44,58 @@ public class FailureDetection extends TimerTask {
         System.out.println("Ping to replica with port : " + Server_Group.Replica_2.UDP_Replica_Manager.Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT + " : is done!");
         logger.info("Ping to replica with port : " + Server_Group.Replica_2.UDP_Replica_Manager.Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT + " : is done!");
 
+        System.out.println(System.currentTimeMillis() + " : Begin to PING the replica with port : " + Server_Group.Replica_3.UDP_Replica_Manager.Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT);
+        logger.info(System.currentTimeMillis() + " : Begin to PING the replica with port : " + Server_Group.Replica_3.UDP_Replica_Manager.Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT);
+
+        doPing(Replica_Manager_Config.HOST_NAME, Server_Group.Replica_3.UDP_Replica_Manager.Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT, "0000" + "\n" + "006" + "\n" + "0000000");
+
+        System.out.println("Ping to replica with port : " + Server_Group.Replica_3.UDP_Replica_Manager.Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT + " : is done!");
+        logger.info("Ping to replica with port : " + Server_Group.Replica_3.UDP_Replica_Manager.Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT + " : is done!");
+
     }
 
+    private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
+
+    //always ready to reply to ping request
+    public void replyToPing(final int portNum, final DatagramSocket aSocket) {
+
+        System.out.println("Replica number one begin to listen on port : " + portNum);
+        logger.info("Replica number one begin to listen on port : " + portNum);
+
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    byte[] buffer = new byte[1000];
+
+                    while (true) {
+                        DatagramPacket request = new DatagramPacket(buffer, buffer.length);
+                        aSocket.receive(request);
+                        String response = "I am alive!";
+                        DatagramPacket reply = new DatagramPacket(response.getBytes(), response.length(), request.getAddress(), request.getPort());
+                        aSocket.send(reply);
+
+                        System.out.println("Replica number one replied");
+                        logger.info("Replica number one replied");
+
+                    }
+                } catch (SocketException e) {
+                    System.out.println(e.getMessage());
+                    logger.info(e.getMessage());
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                    logger.info(e.getMessage());
+                } finally {
+
+                    if (aSocket != null)
+                        aSocket.close();
+
+                }
+            }
+        });
+        t.start();
+
+    }
 
     public String doPing(String targetAddress, int targetPort, String msg) {
         DatagramSocket aSocket = null;
@@ -79,8 +119,8 @@ public class FailureDetection extends TimerTask {
             logger.info("PING " + targetAddress + "  :" + targetPort + " Timed Out");
             liveHostsByName.remove("Host_1");
             if (targetPort == Front_End_Config.PRIMARY_SERVER_PORT) {
-                int newLeaderIndex = elect(Replica_Manager_Config.REPLICA[2]);
-                String newLeaderPort = "NEWLEADER".concat(String.valueOf(Replica_Manager_Config.priority[newLeaderIndex - 1]));
+                int newLeaderIndex = elect(Replica_Manager_Config.REPLICA[0]);
+                String newLeaderPort = "NEWLEADER".concat(String.valueOf(Replica_Manager_Config.priority[newLeaderIndex-1]));
                 doPing(Replica_Manager_Config.HOST_NAME, Front_End_Config.LOCAL_LISTENING_PORT, newLeaderPort);
             }
         } catch (SocketException e) {
@@ -101,47 +141,6 @@ public class FailureDetection extends TimerTask {
 
     }
 
-
-    //always ready to reply to ping request
-    public void replyToPing(final int portNum, final DatagramSocket aSocket) {
-
-        System.out.println("Replica number two begin to listen on port : " + portNum);
-        logger.info("Replica number two begin to listen on port : " + portNum);
-
-
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    byte[] buffer = new byte[1000];
-
-                    while (true) {
-                        DatagramPacket request = new DatagramPacket(buffer, buffer.length);
-                        aSocket.receive(request);
-                        String response = "I am alive!";
-                        DatagramPacket reply = new DatagramPacket(response.getBytes(), response.length(), request.getAddress(), request.getPort());
-                        aSocket.send(reply);
-
-                        System.out.println("Replica number three replied");
-                        logger.info("Replica number three replied");
-
-                    }
-                } catch (SocketException e) {
-                    System.out.println(e.getMessage());
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
-                } finally {
-
-                    if (aSocket != null)
-                        aSocket.close();
-
-                }
-            }
-        });
-        t.start();
-
-    }
-
-
     int elect(int initiator) {
         System.out.println("Bully ALgorithm is going to run by initiator " + initiator);
         logger.info("Bully ALgorithm is going to run by initiator " + initiator);
@@ -159,5 +158,4 @@ public class FailureDetection extends TimerTask {
         logger.info("New Coordinator is elected " + newCoordinator);
         return newCoordinator;
     }
-
 }

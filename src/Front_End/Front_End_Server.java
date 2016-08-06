@@ -89,7 +89,8 @@ public class Front_End_Server {
 							DatagramPacket reply_leader = new DatagramPacket(resend_leader_port.getBytes(),resend_leader_port.getBytes().length, request.getAddress(), request.getPort());
 							socket.send(reply_leader);
 						}else{
-							int leader_port = Integer.parseInt(new String(request.getData()).trim());
+							String receivedContent = new String(request.getData()).trim();
+							int leader_port = Integer.parseInt(receivedContent.substring(9));
 							Front_End_Config.PRIMARY_SERVER_PORT = leader_port;
 							String acknowledgement = "OK";
 							DatagramPacket update_leader = new DatagramPacket(acknowledgement.getBytes(),acknowledgement.getBytes().length, request.getAddress(), request.getPort());

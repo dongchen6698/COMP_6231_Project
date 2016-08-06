@@ -11,9 +11,7 @@ public class ReplicaManager {
         System.out.println("Broad Cast Listener read and waiting");
         new Thread(new Broad_Cast_Listener_Thread()).start();
 
-//        FailureDetection failureDetector = new FailureDetection();
-//        failureDetector.replyToPing(Replica_Manager_Config.LOCAL_BROAD_CAST_LISTENING_PORT);
-
+        FailureDetection failureDetector = new FailureDetection();
 
     }
 

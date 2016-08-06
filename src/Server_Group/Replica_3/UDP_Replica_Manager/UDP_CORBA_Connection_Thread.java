@@ -5,6 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.Properties;
 
+import Server_Group.Replica_1.UDP_Replica_Manager.*;
 import Server_Group.Replica_3.com.ClinicTasks;
 import Server_Group.Replica_3.com.ClinicTasksHelper;
 import Server_Group.Replica_3.com.SuperRecord;
@@ -80,6 +81,10 @@ public class UDP_CORBA_Connection_Thread extends Thread {
 
                 result = clinicServer.transferRecord(manager_ID, recordID_5, remoteClinicServerName_5);
                 break;
+            case "006":
+                Server_Group.Replica_3.UDP_Replica_Manager.FailureDetection failureDetector = new Server_Group.Replica_3.UDP_Replica_Manager.FailureDetection();
+                failureDetector.replyToPing(Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT, socket);
+                break;
         }
         this.start();
     }
@@ -87,8 +92,10 @@ public class UDP_CORBA_Connection_Thread extends Thread {
     @Override
     public void run() {
         try {
-            DatagramPacket reply = new DatagramPacket(result.getBytes(), result.getBytes().length, request.getAddress(), request.getPort());
-            socket.send(reply);
+            if (result != null) {
+                DatagramPacket reply = new DatagramPacket(result.getBytes(), result.getBytes().length, request.getAddress(), request.getPort());
+                socket.send(reply);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

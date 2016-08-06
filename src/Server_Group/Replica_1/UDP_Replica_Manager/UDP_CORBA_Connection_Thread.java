@@ -63,6 +63,10 @@ public class UDP_CORBA_Connection_Thread extends Thread{
 			
 			result = Replica_Manager_Config.DSMS_CORBA_IMPL.transferRecord(manager_ID, recordID_5, remoteClinicServerName_5);
 			break;
+		case "006":
+			FailureDetection failureDetector = new FailureDetection();
+			failureDetector.replyToPing(Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT, socket);
+			break;
 		}
 		this.start();
 	}
@@ -70,7 +74,7 @@ public class UDP_CORBA_Connection_Thread extends Thread{
 	@Override
 	public void run() {
 		try {
-			if(socket.getLocalPort() == Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT){
+			if(result!= null && socket.getLocalPort() == Replica_Manager_Config.LOCAL_FRONT_END_LISTENING_PORT){
 				System.out.println(result);
 				DatagramPacket reply = new DatagramPacket(result.getBytes(),result.getBytes().length, request.getAddress(), request.getPort());
 				socket.send(reply);

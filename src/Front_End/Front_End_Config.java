@@ -15,7 +15,7 @@ public class Front_End_Config {
 	static int REQUESTID_GENERATOR_PORT = 3000;
 	
 	
-	static int LOCAL_LISTENING_PORT = 3500;
+	public static int LOCAL_LISTENING_PORT = 3500;
 	
 	// Leader Host IP and Port
 	static String PRIMARY_SERVER_IP = "127.0.0.1";
