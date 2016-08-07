@@ -59,8 +59,8 @@ public class FailureDetection extends TimerTask {
     public String doPing(String targetAddress, int targetPort, String msg) {
         DatagramSocket aSocket = null;
         DatagramPacket reply = null;
-        System.out.println("++++++++++ function ping started");
-        logger.info("++++++++++ function ping started");
+        System.out.println("++++++++++ function ping started by replica number one");
+        logger.info("++++++++++ function ping started by replica number one");
         try {
             aSocket = new DatagramSocket();
             aSocket.setSoTimeout(Replica_Manager_Config.TIMEOUT);
@@ -93,8 +93,8 @@ public class FailureDetection extends TimerTask {
 
         }
 
-        System.out.println("++++++++++ function ping finished");
-        logger.info("++++++++++ function ping finished");
+        System.out.println("++++++++++ function ping finished by replica number one");
+        logger.info("++++++++++ function ping finished by replica number one");
 
         return new String(reply.getData());
 
@@ -148,11 +148,11 @@ public class FailureDetection extends TimerTask {
         logger.info("Bully ALgorithm is going to run by initiator " + initiator);
         initiator = initiator - 1;
         int newCoordinator = initiator + 1;
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < Replica_Manager_Config.n; i++) {
             if (Replica_Manager_Config.priority[initiator] < Replica_Manager_Config.priority[i]) {
                 System.out.println("Election message is sent from " + (initiator + 1) + " to " + (i + 1));
                 logger.info("Election message is sent from " + (initiator + 1) + " to " + (i + 1));
-                if (doPing(Replica_Manager_Config.HOST_NAME, Replica_Manager_Config.priority[Replica_Manager_Config.REPLICA[i]], "0000" + "\n" + "006" + "\n" + "0000000") != null)
+                if (i + 1 < Server_Group.Replica_2.UDP_Replica_Manager.Replica_Manager_Config.n && doPing(Replica_Manager_Config.HOST_NAME, Replica_Manager_Config.priority[Replica_Manager_Config.REPLICA[i+1]], "0000" + "\n" + "006" + "\n" + "0000000") != null)
                     elect(i + 1);
             }
         }

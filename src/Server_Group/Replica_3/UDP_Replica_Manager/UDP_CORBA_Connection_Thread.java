@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import Server_Group.Replica_1.UDP_Replica_Manager.*;
 import Server_Group.Replica_3.com.ClinicTasks;
@@ -23,6 +24,7 @@ public class UDP_CORBA_Connection_Thread extends Thread {
     DatagramSocket socket = null;
     DatagramPacket request = null;
     String result = null;
+    private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public UDP_CORBA_Connection_Thread(DatagramSocket n_socket, DatagramPacket n_request) {
         this.socket = n_socket;
@@ -33,6 +35,9 @@ public class UDP_CORBA_Connection_Thread extends Thread {
         String manager_ID = new String(request.getData()).trim().split("\n")[2];
         String serverName = manager_ID.substring(0, 3);
         clinicServer = selectProperClinicServer(serverName);
+
+        System.out.println(serverName + ": ");
+        logger.info(serverName + ": UDP Transfer Server is listening on the port: " + transferPortNum);
 
         switch (function_ID) {
             case "001":

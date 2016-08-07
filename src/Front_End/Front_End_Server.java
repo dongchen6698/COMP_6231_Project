@@ -107,7 +107,7 @@ public class Front_End_Server {
 				}
 			}
 		});
-		System.out.println("start listening for update");
+		System.out.println("start listening to update leader");
 		update.start();
 	}
 }
