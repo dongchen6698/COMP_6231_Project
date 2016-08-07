@@ -6,7 +6,6 @@ import java.net.DatagramSocket;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import Server_Group.Replica_1.UDP_Replica_Manager.*;
 import Server_Group.Replica_3.com.ClinicTasks;
 import Server_Group.Replica_3.com.ClinicTasksHelper;
 import Server_Group.Replica_3.com.SuperRecord;
@@ -35,9 +34,6 @@ public class UDP_CORBA_Connection_Thread extends Thread {
         String manager_ID = new String(request.getData()).trim().split("\n")[2];
         String serverName = manager_ID.substring(0, 3);
         clinicServer = selectProperClinicServer(serverName);
-
-        System.out.println(serverName + ": ");
-        logger.info(serverName + ": UDP Transfer Server is listening on the port: " + transferPortNum);
 
         switch (function_ID) {
             case "001":

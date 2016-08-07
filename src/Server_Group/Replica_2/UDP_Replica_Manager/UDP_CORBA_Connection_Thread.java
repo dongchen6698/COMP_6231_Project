@@ -9,8 +9,6 @@ import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 
-import Server_Group.Replica_1.DSMS_CORBA.DSMS;
-import Server_Group.Replica_1.DSMS_CORBA.DSMSHelper;
 import Server_Group.Replica_2.ClinicServer.ClinicServerInt;
 import Server_Group.Replica_2.ClinicServer.ClinicServerIntHelper;
 
