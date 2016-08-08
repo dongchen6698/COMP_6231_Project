@@ -24,7 +24,7 @@ public class CustomizedLogger {
         }
 
         logger.setLevel(Level.INFO);
-        fileTxt = new FileHandler("C:\\Users\\Mahdiye\\IdeaProjects\\finalproject6231\\COMP_6231_Project\\" + fileName + ".log");
+        fileTxt = new FileHandler(fileName + ".log");
 
         formatterTxt = new SimpleFormatter();
         fileTxt.setFormatter(formatterTxt);

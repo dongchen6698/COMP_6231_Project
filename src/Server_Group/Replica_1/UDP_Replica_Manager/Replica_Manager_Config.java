@@ -36,4 +36,6 @@ public class Replica_Manager_Config {
     final static int INTERVAL = 60000;
     final static int INITIALDELAY = 150000;
 
+    static Map<String, Integer> FIFO_HASH_TABLE = new HashMap<String, Integer>();
+
 }

@@ -29,6 +29,7 @@ import java.util.logging.Logger;
  */
 public class ClinicTasksServant extends ClinicTasksPOA implements Runnable {
 
+    private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     private String[] args;
     private Thread t;
@@ -76,8 +77,6 @@ public class ClinicTasksServant extends ClinicTasksPOA implements Runnable {
 
     }
 
-
-    private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     private String serverName;
     private int udpListenerPort;

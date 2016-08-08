@@ -15,16 +15,11 @@ import java.util.logging.Logger;
 public class FailureDetection extends TimerTask {
 
 
-    public static ArrayList<String> liveHostsByName = new ArrayList<String>();
-
-
     Timer timer = new Timer();
 
     public FailureDetection() {
 
-        liveHostsByName.add("Host_1");
-        liveHostsByName.add("Host_2");
-        liveHostsByName.add("Host_3");
+        Front_End_Config.liveHostsByName.put(4100, "Host_1");
 
         timer.scheduleAtFixedRate(this, Replica_Manager_Config.INITIALDELAY, Replica_Manager_Config.INTERVAL);
 
@@ -117,7 +112,7 @@ public class FailureDetection extends TimerTask {
         } catch (SocketTimeoutException ste) {
             System.out.println("PING " + targetAddress + "  :" + targetPort + " Timed Out");
             logger.info("PING " + targetAddress + "  :" + targetPort + " Timed Out");
-            liveHostsByName.remove("Host_1");
+            Front_End_Config.liveHostsByName.remove(4100);
             if (targetPort == Front_End_Config.PRIMARY_SERVER_PORT) {
                 int newLeaderIndex = elect(Replica_Manager_Config.REPLICA[0]);
                 String newLeaderPort = "NEWLEADER".concat(String.valueOf(Replica_Manager_Config.priority[newLeaderIndex - 1]));
